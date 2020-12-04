@@ -1,14 +1,16 @@
+import { NoteColor } from "./types";
+
 export const CANVAS_WIDTH = 780;
 export const CANVAS_HEIGHT = 540;
 export const RADIUS = 20;
-export const NOTE_HIT_ROW_X = 100;
-export const NOTE_HIT_ROW_Y = CANVAS_HEIGHT - RADIUS - 100;
+export const NOTE_HIT_X = 100;
+export const NOTE_HIT_Y = CANVAS_HEIGHT - RADIUS - 100;
 export const COLORS = {
-  GREEN: "#00FF00",
-  RED: "#FF0000",
-  YELLOW: "#FFFF00",
-  BLUE: "#0000FF",
-  ORANGE: "#FFA500",
+  GREEN: NoteColor.Green,
+  RED: NoteColor.Red,
+  YELLOW: NoteColor.Yellow,
+  BLUE: NoteColor.Blue,
+  ORANGE: NoteColor.Orange,
   WHITE: "#FFFFFF",
   BLACK: "#000000"
 };
