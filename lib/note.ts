@@ -2,7 +2,8 @@ import { NoteColor } from "./types";
 import { NOTE_HIT_Y, RADIUS, CANVAS_HEIGHT } from "./constants";
 
 // calculates the position of the note given time in seconds
-function calculateNoteForTime(time: number) {
+// NOTE_HIT_Y === 420
+function calculatePositionForTime(time: number) {
   return NOTE_HIT_Y - 200 * time;
 }
 
@@ -14,7 +15,7 @@ export default class Note {
   readonly chord: boolean;
 
   constructor(time: number, color: NoteColor, chord: boolean) {
-    this._position = calculateNoteForTime(time);
+    this._position = calculatePositionForTime(time);
     this._hit = false;
     this._missed = false;
     this.color = color;
@@ -45,19 +46,17 @@ export default class Note {
     return this.position >= NOTE_HIT_Y - RADIUS && this.position <= NOTE_HIT_Y + RADIUS;
   }
 
-  public pastNotePress(): boolean {
+  public pastNoteHit(): boolean {
     return this.position - RADIUS > NOTE_HIT_Y + RADIUS;
   }
 
   public updatePosition(): void {
     this._position += 4;
+
+    if (this.pastNoteHit() && !this.hit) this._missed = true;
   }
 
   public setHit(): void {
-    this._hit = true;
-  }
-
-  public setMissed(): void {
-    this._missed = true;
+    if (this.onNoteHit()) this._hit = true;
   }
 }
