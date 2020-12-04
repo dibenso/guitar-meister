@@ -10,15 +10,15 @@ export default class Note {
   private _position: number;
   private _hit: boolean;
   private _missed: boolean;
-  readonly _color: NoteColor;
-  readonly _chord: boolean;
+  readonly color: NoteColor;
+  readonly chord: boolean;
 
   constructor(time: number, color: NoteColor, chord: boolean) {
     this._position = calculateNoteForTime(time);
     this._hit = false;
     this._missed = false;
-    this._color = color;
-    this._chord = chord;
+    this.color = color;
+    this.chord = chord;
   }
 
   get position(): number {
