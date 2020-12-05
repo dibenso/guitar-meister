@@ -1,16 +1,10 @@
+import { ControlEvent } from "./types";
 import { KEYS } from "./constants";
 
 // used by the Control class toggleFromEvent() method to turn on and off controls
 // based off of keyup / keydown events and if a keydown is repeated
 function togglePredicate(up: boolean, repeat: boolean): boolean {
   return up && !repeat ? false : true;
-}
-
-// like keyboard event but only contains what we need
-// makes testing this functionality a little easier
-export interface ControlEvent {
-  code: string;
-  repeat: boolean;
 }
 
 export default class Controls {
@@ -81,7 +75,7 @@ export default class Controls {
   }
 
   // returns true if no note controls are pressed
-  private emptyControls(): boolean {
+  public emptyControls(): boolean {
     return !(this.green || this.red || this.yellow || this.blue || this.orange);
   }
 }
