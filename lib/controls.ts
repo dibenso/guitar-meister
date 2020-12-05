@@ -20,7 +20,6 @@ export default class Controls {
   private _blue: boolean;
   private _orange: boolean;
   private _strum: boolean;
-  public validNotesForStrum: boolean;
 
   constructor() {
     this._green = false;
@@ -29,7 +28,6 @@ export default class Controls {
     this._blue = false;
     this._orange = false;
     this._strum = false;
-    this.validNotesForStrum = false;
   }
 
   get green(): boolean {
@@ -56,7 +54,7 @@ export default class Controls {
     return this._strum;
   }
 
-  public toggleFromEvent(event: ControlEvent, up: boolean): void {
+  public toggleFromEvent(event: ControlEvent, up: boolean, badStrumCallback: () => void): void {
     const { code, repeat } = event;
 
     switch (code) {
@@ -77,13 +75,9 @@ export default class Controls {
         break;
       case KEYS.STRUM:
         this._strum = up || repeat ? false : true;
-        this.checkBadStrum();
+        badStrumCallback();
         break;
     }
-  }
-
-  private checkBadStrum(): boolean {
-    return (!this.validNotesForStrum && this._strum) || (this.emptyControls() && this._strum);
   }
 
   // returns true if no note controls are pressed
