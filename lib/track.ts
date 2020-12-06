@@ -9,6 +9,7 @@ export default class Track {
   private _notes: Array<Note>;
   private _currentChord: Array<Note>;
   private _duration: number | undefined;
+  private _anyValidNote: boolean;
 
   constructor(notes: Array<Note>) {
     this._gameCanvas = new GameCanvas();
@@ -16,6 +17,7 @@ export default class Track {
     this._notes = notes;
     this._duration = 0;
     this._currentChord = [];
+    this._anyValidNote = false;
     this._audioPlayer.onloadedmetadata = () => {
       this._duration = this._audioPlayer?.duration;
     };
@@ -25,15 +27,22 @@ export default class Track {
     return this._currentChord;
   }
 
+  get anyNoteValid(): boolean {
+    return this._anyValidNote;
+  }
+
   progress(
     controls: Controls,
     validNoteHit: (note: Note) => void,
     validChordHit: () => void,
     missed: () => void
   ): void {
+    let anyNoteValid = false;
+
     for (const note of this._notes) {
       this._gameCanvas.clearBottom();
 
+      if (note.onNoteHit()) anyNoteValid = true;
       if (!note.pastScreen()) note.updatePosition();
       if (note.onScreen()) this._gameCanvas.moveNote(note);
       if (!note.hit && !note.missed && note.pastNoteHit()) {
@@ -43,6 +52,8 @@ export default class Track {
       if (note.onNoteHit && note.chord && !note.hit && !note.missed) this._currentChord.push(note);
       else if (note.onNoteHit() && controls.strum && !note.hit && !note.missed) validNoteHit(note);
     }
+
+    this._anyValidNote = anyNoteValid;
 
     if (this._currentChord.length > 0 && controls.strum) validChordHit();
   }

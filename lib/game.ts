@@ -98,8 +98,6 @@ export default class Game {
               this.setNoteHit(note);
             }
           }
-          this._notesHit += this._track.currentChord.length;
-          this.increaseWinLoss(this._track.currentChord.length);
         },
         () => {
           this._notesMissed++;
@@ -112,6 +110,26 @@ export default class Game {
         gameOver();
       }
     }, 20);
+
+    document.addEventListener("keydown", event => {
+      this.keyEventHandler(event, false);
+    });
+
+    document.addEventListener("keyup", event => {
+      this.keyEventHandler(event, true);
+    });
+  }
+
+  private keyEventHandler(event: KeyboardEvent, up: boolean): void {
+    const { code, repeat } = event;
+
+    if (up) this._controls.toggleFromEvent({ code, repeat }, true, this.badStrumCallback);
+    else this._controls.toggleFromEvent({ code, repeat }, false, this.badStrumCallback);
+  }
+
+  private badStrumCallback(): void {
+    if ((!this._track.anyNoteValid && this._controls.strum) || (this._controls.emptyControls() && this._controls.strum))
+      this._badStrums++;
   }
 
   private setNoteHit(note: Note): void {
@@ -119,6 +137,7 @@ export default class Game {
     this._notesHit++;
     this._score += 10;
     this.increaseWinLoss();
+    this.logData();
   }
 
   private clearProcess(): void {
@@ -135,5 +154,9 @@ export default class Game {
 
   private decreaseWinLoss(): void {
     this._winLoss -= 0.05;
+  }
+
+  private logData(): void {
+    console.log(`Notes hit: ${this._notesHit}\nScore: ${this._score}`);
   }
 }
