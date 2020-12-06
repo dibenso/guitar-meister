@@ -1,4 +1,5 @@
 import Note from "./note";
+import Controls from "./controls";
 import GameCanvas from "./canvas/game";
 import { DOM_IDS } from "./constants";
 
@@ -24,14 +25,20 @@ export default class Track {
     return this._currentChord;
   }
 
-  progress(): void {
+  progress(controls: Controls, validNoteHit: () => void, validChordHit: () => void, missed: () => void): void {
     for (const note of this._notes) {
       this._gameCanvas.clearBottom();
 
       if (!note.pastScreen()) note.updatePosition();
       if (note.onScreen()) this._gameCanvas.moveNote(note);
-      if (!note.hit && !note.missed && note.pastNoteHit()) note.setMissed();
+      if (!note.hit && !note.missed && note.pastNoteHit()) {
+        note.setMissed();
+        missed();
+      }
       if (note.onNoteHit && note.chord && !note.hit && !note.missed) this._currentChord.push(note);
+      else if (note.onNoteHit() && controls.strum && !note.hit && !note.missed) validNoteHit();
     }
+
+    if (this._currentChord.length > 0 && controls.strum) validChordHit();
   }
 }
