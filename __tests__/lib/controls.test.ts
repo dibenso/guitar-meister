@@ -1,5 +1,4 @@
 import Controls from "../../lib/controls";
-import { ControlEvent } from "../../lib/types";
 import { KEYS } from "../../lib/constants";
 
 describe("Controls", () => {

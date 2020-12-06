@@ -25,3 +25,12 @@ export const KEYS = {
   ORANGE: "Digit6",
   STRUM: "Space"
 };
+export const DOM_IDS = {
+  GAME_BACKGROUND_CANVAS: "game-background-canvas",
+  GAME_CANVAS: "game-canvas",
+  AUDIO_PLAYER: "audio-player",
+  SCORE: "score",
+  NOTE_HITS: "hit-count",
+  NOTE_MISSES: "missed-count",
+  BAD_STRUMS: "bad-strum-count"
+};
