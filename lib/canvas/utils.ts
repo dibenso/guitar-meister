@@ -10,3 +10,7 @@ export function drawCircle(x: number, y: number, color: NoteColor, context: Canv
   context.lineWidth = 2;
   context.stroke();
 }
+
+export function clearCircle(x: number, y: number, context: CanvasRenderingContext2D): void {
+  context.clearRect(x - RADIUS - 5, y - RADIUS - 5, RADIUS * 2 + 15, RADIUS * 2 + 15);
+}

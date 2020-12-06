@@ -113,4 +113,12 @@ describe("Note", () => {
       expect(note.hit).toEqual(true);
     });
   });
+
+  describe("setMissed", () => {
+    it("should set the missed property of a note to true", () => {
+      const note = new Note(10.0, NoteColor.Orange, false);
+      note.setMissed();
+      expect(note.missed).toEqual(true);
+    });
+  });
 });

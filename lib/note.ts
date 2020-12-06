@@ -59,4 +59,8 @@ export default class Note {
   public setHit(): void {
     if (this.onNoteHit()) this._hit = true;
   }
+
+  public setMissed(): void {
+    this._missed = true;
+  }
 }
