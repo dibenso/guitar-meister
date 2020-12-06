@@ -25,7 +25,12 @@ export default class Track {
     return this._currentChord;
   }
 
-  progress(controls: Controls, validNoteHit: () => void, validChordHit: () => void, missed: () => void): void {
+  progress(
+    controls: Controls,
+    validNoteHit: (note: Note) => void,
+    validChordHit: () => void,
+    missed: () => void
+  ): void {
     for (const note of this._notes) {
       this._gameCanvas.clearBottom();
 
@@ -36,7 +41,7 @@ export default class Track {
         missed();
       }
       if (note.onNoteHit && note.chord && !note.hit && !note.missed) this._currentChord.push(note);
-      else if (note.onNoteHit() && controls.strum && !note.hit && !note.missed) validNoteHit();
+      else if (note.onNoteHit() && controls.strum && !note.hit && !note.missed) validNoteHit(note);
     }
 
     if (this._currentChord.length > 0 && controls.strum) validChordHit();
