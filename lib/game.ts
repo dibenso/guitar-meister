@@ -157,6 +157,8 @@ export default class Game {
   }
 
   private logData(): void {
-    console.log(`Notes hit: ${this._notesHit}\nScore: ${this._score}`);
+    console.log(
+      `Score: ${this._score}\nNotes hit: ${this._notesHit}\nNotes missed: ${this._notesMissed}\nBad strums: ${this._badStrums}`
+    );
   }
 }
