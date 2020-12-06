@@ -1,58 +1,38 @@
 import React, { Component } from "react";
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
+import GuitarMeister from "../lib";
+import Note from "../lib/note";
+import { NoteColor } from "../lib/types";
+import { DOM_IDS } from "../lib/constants";
 
 export default class Home extends Component {
+  shouldComponentUpdate(): boolean {
+    return false;
+  }
+
+  componentDidMount(): void {
+    const notes: Array<Note> = [new Note(3.0, NoteColor.Green, false), new Note(3.5, NoteColor.Red, false)];
+    GuitarMeister.start(notes);
+  }
+
   render(): JSX.Element {
     return (
-      <div className={styles.container}>
+      <div>
         <Head>
           <title>Create Next App</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
-
-        <main className={styles.main}>
-          <h1 className={styles.title}>
-            Welcome to <a href="https://nextjs.org">Next.js!</a>
-          </h1>
-
-          <p className={styles.description}>
-            Get started by editing <code className={styles.code}>pages/index.js</code>
-          </p>
-
-          <div className={styles.grid}>
-            <a href="https://nextjs.org/docs" className={styles.card}>
-              <h3>Documentation &rarr;</h3>
-              <p>Find in-depth information about Next.js features and API.</p>
-            </a>
-
-            <a href="https://nextjs.org/learn" className={styles.card}>
-              <h3>Learn &rarr;</h3>
-              <p>Learn about Next.js in an interactive course with quizzes!</p>
-            </a>
-
-            <a href="https://github.com/vercel/next.js/tree/master/examples" className={styles.card}>
-              <h3>Examples &rarr;</h3>
-              <p>Discover and deploy boilerplate example Next.js projects.</p>
-            </a>
-
-            <a
-              href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              className={styles.card}>
-              <h3>Deploy &rarr;</h3>
-              <p>Instantly deploy your Next.js site to a public URL with Vercel.</p>
-            </a>
-          </div>
-        </main>
-
-        <footer className={styles.footer}>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer">
-            Powered by <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-          </a>
-        </footer>
+        <audio id={DOM_IDS.AUDIO_PLAYER} autoPlay>
+          <source src="audio/song1.mp3" type="audio/mp3" />
+          Your browser does not support HTML5 audio.
+        </audio>
+        <div id="stack">
+          <video autoPlay muted id="video-player">
+            <source src="video/video1.mp4" type="video/mp4" />
+          </video>
+          <canvas className="canvas-element" id={DOM_IDS.GAME_BACKGROUND_CANVAS} width="780" height="540"></canvas>
+          <canvas className="canvas-element" id={DOM_IDS.GAME_CANVAS} width="780" height="540"></canvas>
+        </div>
       </div>
     );
   }

@@ -1,7 +1,7 @@
 import { drawCircle } from "./utils";
 import { DOM_IDS, CANVAS_WIDTH, CANVAS_HEIGHT, COLORS, NOTE_HIT_X, NOTE_HIT_Y } from "../constants";
 
-export default class GameCanvas {
+export default class BackgroundCanvas {
   private _context: CanvasRenderingContext2D | null;
 
   constructor() {
