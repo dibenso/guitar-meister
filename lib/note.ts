@@ -52,8 +52,6 @@ export default class Note {
 
   public updatePosition(): void {
     this._position += 4;
-
-    if (this.pastNoteHit() && !this.hit) this._missed = true;
   }
 
   public setHit(): void {

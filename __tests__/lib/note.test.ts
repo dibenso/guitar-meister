@@ -95,12 +95,6 @@ describe("Note", () => {
       updateNotePositionNTimes(note, 100);
       expect(note.position).toEqual(nextPosition);
     });
-
-    it("should set missed to true if the newly updated position is past the note hit row", () => {
-      const note = new Note(10.0, NoteColor.Blue, false);
-      updateNotePositionNTimes(note, 511);
-      expect(note.missed).toEqual(true);
-    });
   });
 
   describe("setHit", () => {
