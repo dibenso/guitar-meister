@@ -38,6 +38,7 @@ export default class Track {
     missed: () => void
   ): void {
     let anyNoteValid = false;
+    this._currentChord = [];
 
     for (const note of this._notes) {
       this._gameCanvas.clearBottom();

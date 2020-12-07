@@ -12,7 +12,13 @@ export default class Home extends Component {
   }
 
   componentDidMount(): void {
-    const notes: Array<Note> = [new Note(3.0, NoteColor.Green, false), new Note(3.5, NoteColor.Red, false)];
+    const notes: Array<Note> = [
+      new Note(3.0, NoteColor.Green, false),
+      new Note(3.5, NoteColor.Red, false),
+      new Note(4.0, NoteColor.Red, true),
+      new Note(4.0, NoteColor.Yellow, true),
+      new Note(4.0, NoteColor.Blue, true)
+    ];
     GuitarMeister.start(notes);
   }
 
