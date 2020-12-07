@@ -4,6 +4,7 @@ import GuitarMeister from "../lib";
 import Note from "../lib/note";
 import { NoteColor } from "../lib/types";
 import { DOM_IDS } from "../lib/constants";
+import styles from "../styles/Home.module.css";
 
 export default class Home extends Component {
   shouldComponentUpdate(): boolean {
@@ -26,8 +27,8 @@ export default class Home extends Component {
           <source src="audio/song1.mp3" type="audio/mp3" />
           Your browser does not support HTML5 audio.
         </audio>
-        <div id="stack">
-          <video autoPlay muted id="video-player">
+        <div className={styles.stack}>
+          <video autoPlay muted className={styles.videoPlayer}>
             <source src="video/video1.mp4" type="video/mp4" />
           </video>
           <canvas className="canvas-element" id={DOM_IDS.GAME_BACKGROUND_CANVAS} width="780" height="540"></canvas>

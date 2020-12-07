@@ -127,8 +127,8 @@ export default class Game {
   private keyEventHandler(event: KeyboardEvent, up: boolean): void {
     const { code, repeat } = event;
 
-    if (up) this._controls.toggleFromEvent({ code, repeat }, true, this.badStrumCallback);
-    else this._controls.toggleFromEvent({ code, repeat }, false, this.badStrumCallback);
+    if (up) this._controls.toggleFromEvent({ code, repeat }, true, this.badStrumCallback.bind(this));
+    else this._controls.toggleFromEvent({ code, repeat }, false, this.badStrumCallback.bind(this));
   }
 
   private badStrumCallback(): void {
