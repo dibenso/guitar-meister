@@ -1,5 +1,6 @@
 import Note from "./note";
 import Controls from "./controls";
+import TrackNotes from "./trackNotes";
 import Track from "./track";
 import BackgroundCanvas from "./canvas/background";
 import { COLORS } from "./constants";
@@ -40,6 +41,7 @@ function keysMatchChord(chord: number, keys: Controls) {
 
 export default class Game {
   private _controls: Controls;
+  private _trackNotes: TrackNotes;
   private _track: Track;
   private _backgroundCanvas: BackgroundCanvas;
   private _process: number;
@@ -49,9 +51,10 @@ export default class Game {
   private _score: number;
   private _winLoss: number;
 
-  constructor(notes: Array<Note>) {
+  constructor(trackNotes: TrackNotes) {
     this._controls = new Controls();
-    this._track = new Track(notes);
+    this._trackNotes = trackNotes;
+    this._track = new Track(trackNotes);
     this._backgroundCanvas = new BackgroundCanvas();
     this._process = -1;
     this._notesHit = 0;

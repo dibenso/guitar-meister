@@ -1,3 +1,4 @@
+import TrackNotes from "./trackNotes";
 import Note from "./note";
 import Controls from "./controls";
 import GameCanvas from "./canvas/game";
@@ -11,10 +12,10 @@ export default class Track {
   private _duration: number | undefined;
   private _anyValidNote: boolean;
 
-  constructor(notes: Array<Note>) {
+  constructor(trackNotes: TrackNotes) {
     this._gameCanvas = new GameCanvas();
     this._audioPlayer = <HTMLAudioElement>document.getElementById(DOM_IDS.AUDIO_PLAYER);
-    this._notes = notes;
+    this._notes = trackNotes.notes;
     this._duration = 0;
     this._currentChord = [];
     this._anyValidNote = false;
@@ -29,6 +30,10 @@ export default class Track {
 
   get anyNoteValid(): boolean {
     return this._anyValidNote;
+  }
+
+  get duration(): number | undefined {
+    return this._duration;
   }
 
   progress(

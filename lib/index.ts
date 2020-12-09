@@ -1,11 +1,13 @@
 import Game from "./game";
-import Note from "./note";
+import TrackNotes from "./trackNotes";
 
 export default class GuitarMeister {
-  static start(notes: Array<Note>): void {
-    const game = new Game(notes);
-    game.start(() => {
-      alert("Game Over");
-    });
+  static start(trackNotes: TrackNotes): void {
+    if (trackNotes.validate()) {
+      const game = new Game(trackNotes);
+      game.start(() => {
+        alert("Game Over");
+      });
+    } else alert("Malformed Track notes. Please ensure that this Track was created with the Track creation tool");
   }
 }
