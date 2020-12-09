@@ -21,6 +21,7 @@ export default class TrackNotes {
     return `${passed || ""}${overlap || ""}${notAligned || ""}`;
   }
 
+  // TODO: validate color is not repeated in a chord
   validate(): boolean {
     let lastNotePosition = this._notes[0].position;
     let lastChordPosition = 0;
