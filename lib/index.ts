@@ -11,7 +11,7 @@ export default class GuitarMeister {
       return true;
     } else {
       alert(
-        `Malformed Track notes. Please ensure that this Track was created with the Track creation tool. Error: ${trackNotes.validationReason}`
+        `Malformed Track notes. Please ensure that this Track was created with the Track creation tool. Error: ${trackNotes.validationReasons}`
       );
       return false;
     }
