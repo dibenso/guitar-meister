@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Head from "next/head";
 import GuitarMeister from "../lib";
 import Note from "../lib/note";
+import TrackNotes from "../lib/trackNotes";
 import { NoteColor } from "../lib/types";
 import { DOM_IDS } from "../lib/constants";
 import styles from "../styles/Home.module.css";
@@ -19,7 +20,8 @@ export default class Home extends Component {
       new Note(4.0, NoteColor.Yellow, true),
       new Note(4.0, NoteColor.Blue, true)
     ];
-    GuitarMeister.start(notes);
+    const trackNotes = new TrackNotes(notes);
+    GuitarMeister.start(trackNotes);
   }
 
   render(): JSX.Element {
