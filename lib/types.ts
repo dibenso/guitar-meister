@@ -12,3 +12,10 @@ export interface ControlEvent {
   code: string;
   repeat: boolean;
 }
+
+// used by TrackNotes for validation reasons
+export interface ValidationReasons {
+  passed?: string;
+  overlap?: string;
+  notAligned?: string;
+}
