@@ -23,15 +23,15 @@ export default class TrackNotes {
     let lastNotePosition = this._notes[0].position;
     let lastChordPosition = 0;
 
-    // check if first note is greater than or equal to NOTE_HIT_Y
-    if (lastNotePosition >= 0) {
+    // check if first note is greater than or equal to NOTE_HIT_Y (note hit row)
+    if (lastNotePosition >= NOTE_HIT_Y) {
       this._validationReason = "Notes passed note hit row";
       return false;
     }
 
-    for (const note of this._notes) {
+    this.notes.forEach((note, index) => {
       // check for any overlapping notes that are not chords
-      if (note.position > lastNotePosition - RADIUS && !note.chord) {
+      if (note.position > lastNotePosition - RADIUS && !note.chord && index !== 0) {
         this._validationReason = "Overlapping notes";
         return false;
       }
@@ -46,7 +46,7 @@ export default class TrackNotes {
       } else lastChordPosition = 0;
 
       lastNotePosition = note.position;
-    }
+    });
 
     return true;
   }
