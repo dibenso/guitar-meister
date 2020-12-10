@@ -7,6 +7,7 @@ import { DOM_IDS } from "./constants";
 export default class Track {
   private _gameCanvas: GameCanvas;
   private _audioPlayer: HTMLAudioElement | null;
+  private _videoPlayer: HTMLVideoElement | null;
   private _notes: Array<Note>;
   private _currentChord: Array<Note>;
   private _duration: number | undefined;
@@ -15,6 +16,7 @@ export default class Track {
   constructor(trackNotes: TrackNotes) {
     this._gameCanvas = new GameCanvas();
     this._audioPlayer = <HTMLAudioElement>document.getElementById(DOM_IDS.AUDIO_PLAYER);
+    this._videoPlayer = <HTMLVideoElement>document.getElementById(DOM_IDS.VIDEO_PLAYER);
     this._notes = trackNotes.notes;
     this._duration = 0;
     this._currentChord = [];
@@ -34,6 +36,19 @@ export default class Track {
 
   get duration(): number | undefined {
     return this._duration;
+  }
+
+  startAudio(): void {
+    this._audioPlayer?.play();
+  }
+
+  startVideo(): void {
+    this._videoPlayer?.play();
+  }
+
+  startAV(): void {
+    this.startAudio();
+    this.startVideo();
   }
 
   progress(

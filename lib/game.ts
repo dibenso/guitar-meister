@@ -66,6 +66,7 @@ export default class Game {
 
   start(gameOver: () => void): void {
     this._backgroundCanvas.initialize();
+    this._track.startAV();
     this._process = window.setInterval(() => {
       this._track.progress(
         this._controls,
