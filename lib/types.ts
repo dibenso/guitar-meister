@@ -18,4 +18,5 @@ export interface ValidationReasons {
   passed?: string;
   overlap?: string;
   notAligned?: string;
+  duplicateChordNote?: string;
 }
