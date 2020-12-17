@@ -35,3 +35,12 @@ export const DOM_IDS = {
   NOTE_MISSES: "missed-count",
   BAD_STRUMS: "bad-strum-count"
 };
+export const MINIMUM_NOTES_REQUIRED = 3;
+export const VALIDATION_REASONS = {
+  SINGLE_NOTE_CHORD: "Chords have to be at least 2 consectuive notes; ",
+  OVERLAPPING_NOTES: "Overlapping notes; ",
+  NOT_ENOUGH_NOTES: `${MINIMUM_NOTES_REQUIRED} notes are required to create a track; `,
+  PASSED: "Notes passed note hit row; ",
+  NOT_ALIGNED: "Chords not aligned; ",
+  DUPLICATE_CHORD_NOTE: "Chord has repeated note colors; "
+};
