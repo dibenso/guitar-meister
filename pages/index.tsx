@@ -17,7 +17,8 @@ export default class Home extends Component {
       new Note(3.0, NoteColor.Green, false),
       new Note(3.5, NoteColor.Red, false),
       new Note(4.0, NoteColor.Red, true),
-      new Note(4.0, NoteColor.Blue, false)
+      new Note(4.0, NoteColor.Blue, true),
+      new Note(4.4, NoteColor.Green, false)
     ];
     const trackNotes = new TrackNotes(notes);
     GuitarMeister.start(trackNotes);

@@ -40,13 +40,13 @@ export default class TrackNotes {
     // check if first note is greater than or equal to NOTE_HIT_Y (note hit row)
     if (lastNote.position >= NOTE_HIT_Y) {
       this._validationReasons.passed = VALIDATION_REASONS.PASSED;
-      return false;
+      valid = false;
     }
 
     // check if the track has at least MINIMUM_NOTES_REQUIRED number of notes
     if (this.notes.length < MINIMUM_NOTES_REQUIRED) {
       this._validationReasons.notEnoughNotes = VALIDATION_REASONS.NOT_ENOUGH_NOTES;
-      return false;
+      valid = false;
     }
 
     this.notes.forEach((note, index) => {
