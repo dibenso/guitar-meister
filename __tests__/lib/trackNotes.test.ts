@@ -3,6 +3,69 @@ import Note from "../../lib/note";
 import { NoteColor } from "../../lib/types";
 import { VALIDATION_REASONS } from "../../lib/constants";
 
+const validationFactory = (validationReason: string): TrackNotes => {
+  switch (validationReason) {
+    case VALIDATION_REASONS.SINGLE_NOTE_CHORD: {
+      const notes = [
+        new Note(2.5, NoteColor.Green, false),
+        new Note(3.0, NoteColor.Red, true),
+        new Note(3.5, NoteColor.Yellow, false)
+      ];
+      const trackNotes = new TrackNotes(notes);
+      trackNotes.validate();
+      return trackNotes;
+    }
+    case VALIDATION_REASONS.OVERLAPPING_NOTES: {
+      const notes = [
+        new Note(2.5, NoteColor.Green, false),
+        new Note(3.0, NoteColor.Red, false),
+        new Note(3.0, NoteColor.Yellow, false)
+      ];
+      const trackNotes = new TrackNotes(notes);
+      trackNotes.validate();
+      return trackNotes;
+    }
+    case VALIDATION_REASONS.NOT_ENOUGH_NOTES: {
+      const notes = [new Note(2.5, NoteColor.Green, false), new Note(3.0, NoteColor.Red, false)];
+      const trackNotes = new TrackNotes(notes);
+      trackNotes.validate();
+      return trackNotes;
+    }
+    case VALIDATION_REASONS.PASSED: {
+      const notes = [
+        new Note(0, NoteColor.Green, false),
+        new Note(3.0, NoteColor.Red, false),
+        new Note(3.0, NoteColor.Yellow, false)
+      ];
+      const trackNotes = new TrackNotes(notes);
+      trackNotes.validate();
+      return trackNotes;
+    }
+    case VALIDATION_REASONS.NOT_ALIGNED: {
+      const notes = [
+        new Note(2.5, NoteColor.Green, false),
+        new Note(3.0, NoteColor.Red, true),
+        new Note(3.1, NoteColor.Yellow, true)
+      ];
+      const trackNotes = new TrackNotes(notes);
+      trackNotes.validate();
+      return trackNotes;
+    }
+    case VALIDATION_REASONS.DUPLICATE_CHORD_NOTE: {
+      const notes = [
+        new Note(2.5, NoteColor.Green, false),
+        new Note(3.0, NoteColor.Red, true),
+        new Note(3.0, NoteColor.Red, true)
+      ];
+      const trackNotes = new TrackNotes(notes);
+      trackNotes.validate();
+      return trackNotes;
+    }
+    default:
+      return new TrackNotes([]);
+  }
+};
+
 describe("TrackNotes", () => {
   describe("constructor", () => {
     it("should create a new TrackNotes object given an array of Notes", () => {
@@ -31,65 +94,33 @@ describe("TrackNotes", () => {
   });
 
   describe("validationReason", () => {
-    it("it should return a string containing an error about single note chords", () => {
-      const notes = [
-        new Note(2.5, NoteColor.Green, false),
-        new Note(3.0, NoteColor.Red, true),
-        new Note(3.5, NoteColor.Yellow, false)
-      ];
-      const trackNotes = new TrackNotes(notes);
-      trackNotes.validate();
+    it("should return a string containing an error about single note chords", () => {
+      const trackNotes = validationFactory(VALIDATION_REASONS.SINGLE_NOTE_CHORD);
       expect(trackNotes.validationReasons).toContain(VALIDATION_REASONS.SINGLE_NOTE_CHORD);
     });
 
     it("should return a string containing an error about overlapping notes", () => {
-      const notes = [
-        new Note(2.5, NoteColor.Green, false),
-        new Note(3.0, NoteColor.Red, false),
-        new Note(3.0, NoteColor.Yellow, false)
-      ];
-      const trackNotes = new TrackNotes(notes);
-      trackNotes.validate();
+      const trackNotes = validationFactory(VALIDATION_REASONS.OVERLAPPING_NOTES);
       expect(trackNotes.validationReasons).toContain(VALIDATION_REASONS.OVERLAPPING_NOTES);
     });
 
     it("should return a string containing an error about not enough notes", () => {
-      const notes = [new Note(2.5, NoteColor.Green, false), new Note(3.0, NoteColor.Red, false)];
-      const trackNotes = new TrackNotes(notes);
-      trackNotes.validate();
+      const trackNotes = validationFactory(VALIDATION_REASONS.NOT_ENOUGH_NOTES);
       expect(trackNotes.validationReasons).toContain(VALIDATION_REASONS.NOT_ENOUGH_NOTES);
     });
 
     it("should return a string containing an error about notes that are passed the note hit row", () => {
-      const notes = [
-        new Note(0, NoteColor.Green, false),
-        new Note(3.0, NoteColor.Red, false),
-        new Note(3.0, NoteColor.Yellow, false)
-      ];
-      const trackNotes = new TrackNotes(notes);
-      trackNotes.validate();
+      const trackNotes = validationFactory(VALIDATION_REASONS.PASSED);
       expect(trackNotes.validationReasons).toContain(VALIDATION_REASONS.PASSED);
     });
 
     it("should return a string containing an error about chords that are not aligned", () => {
-      const notes = [
-        new Note(2.5, NoteColor.Green, false),
-        new Note(3.0, NoteColor.Red, true),
-        new Note(3.1, NoteColor.Yellow, true)
-      ];
-      const trackNotes = new TrackNotes(notes);
-      trackNotes.validate();
+      const trackNotes = validationFactory(VALIDATION_REASONS.NOT_ALIGNED);
       expect(trackNotes.validationReasons).toContain(VALIDATION_REASONS.NOT_ALIGNED);
     });
 
     it("should return a string containing an error about duplicate chord notes", () => {
-      const notes = [
-        new Note(2.5, NoteColor.Green, false),
-        new Note(3.0, NoteColor.Red, true),
-        new Note(3.0, NoteColor.Red, true)
-      ];
-      const trackNotes = new TrackNotes(notes);
-      trackNotes.validate();
+      const trackNotes = validationFactory(VALIDATION_REASONS.DUPLICATE_CHORD_NOTE);
       expect(trackNotes.validationReasons).toContain(VALIDATION_REASONS.DUPLICATE_CHORD_NOTE);
     });
   });
