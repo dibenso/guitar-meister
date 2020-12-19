@@ -78,13 +78,7 @@ const validationFactory = (validationReason = ""): TrackNotes => {
 describe("TrackNotes", () => {
   describe("constructor", () => {
     it("should create a new TrackNotes object given an array of Notes", () => {
-      const notes = [
-        new Note(2.5, NoteColor.Green, false),
-        new Note(3.0, NoteColor.Red, false),
-        new Note(4.0, NoteColor.Blue, true),
-        new Note(4.0, NoteColor.Orange, true)
-      ];
-      const trackNotes = new TrackNotes(notes);
+      const trackNotes = validationFactory();
       expect(trackNotes).toBeInstanceOf(TrackNotes);
     });
   });
