@@ -1,10 +1,4 @@
-.stack > canvas {
-  position: absolute;
-  left: 22%;
-  top: 0;
-}
-
-.videoPlayer {
-  width: 100%;
-  height: 560px;
+.btn {
+  margin: 0 auto;
+  display: block;
 }

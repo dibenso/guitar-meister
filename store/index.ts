@@ -1,6 +1,8 @@
-import { createStore, applyMiddleware, AnyAction } from "redux";
-import { MakeStore, createWrapper, HYDRATE } from "next-redux-wrapper";
+import { createStore, applyMiddleware, combineReducers } from "redux";
+import { MakeStore, createWrapper } from "next-redux-wrapper";
 import thunkMiddleware from "redux-thunk";
+import appReducer from "./reducers/app";
+import gameReducer from "./reducers/game";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const bindMiddleware = (middleware: any) => {
@@ -12,25 +14,16 @@ const bindMiddleware = (middleware: any) => {
   return applyMiddleware(...middleware);
 };
 
-export interface State {
-  tick: string;
-}
+const rootReducer = combineReducers({
+  app: appReducer,
+  game: gameReducer
+});
 
-// create your reducer
-const reducer = (state: State = { tick: "init" }, action: AnyAction) => {
-  switch (action.type) {
-    case HYDRATE:
-      // Attention! This will overwrite client state! Real apps should use proper reconciliation.
-      return { ...state, ...action.payload };
-    case "TICK":
-      return { ...state, tick: action.payload };
-    default:
-      return state;
-  }
-};
+export type RootState = ReturnType<typeof rootReducer>;
 
 // create a makeStore function
-const makeStore: MakeStore<State> = () => createStore(reducer, bindMiddleware([thunkMiddleware]));
+const makeStore: MakeStore<RootState> = () =>
+  createStore(combineReducers({ app: appReducer, game: gameReducer }), bindMiddleware([thunkMiddleware]));
 
 // export an assembled wrapper
-export const wrapper = createWrapper<State>(makeStore, { debug: true });
+export const wrapper = createWrapper<RootState>(makeStore, { debug: true });

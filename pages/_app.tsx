@@ -1,6 +1,5 @@
 import React from "react";
 import { wrapper } from "../store";
-import "../styles/globals.css";
 
 import type { AppProps /*, AppContext */ } from "next/app";
 
