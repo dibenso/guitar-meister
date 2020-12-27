@@ -4,6 +4,8 @@ import { connect, ConnectedProps } from "react-redux";
 import { Dispatch } from "redux";
 import { RootState } from "../store";
 import { setPlay, setCreate } from "../store/actions/app";
+import Play from "../components/play";
+import Create from "../components/create";
 import styles from "../styles/Home.module.css";
 
 const mapStateToProps = (state: RootState) => {
@@ -33,14 +35,17 @@ class Home extends Component<Props, unknown> {
         </Head>
         <div>
           {play || create ? (
-            <div>Play or Create</div>
+            <div>
+              {play && <Play />}
+              {create && <Create />}
+            </div>
           ) : (
             <div>
               <button className={styles.btn} onClick={() => this.props.setPlay()}>
-                Play a track
+                Play a Track
               </button>
               <button className={styles.btn} onClick={() => this.props.setCreate()}>
-                Create a track
+                Create a Track
               </button>
             </div>
           )}
