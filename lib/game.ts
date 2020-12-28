@@ -2,8 +2,9 @@ import Note from "./note";
 import Controls from "./controls";
 import TrackNotes from "./trackNotes";
 import Track from "./track";
+import GameCanvas from "./canvas/game";
 import BackgroundCanvas from "./canvas/background";
-import { COLORS } from "./constants";
+import { COLORS, DOM_IDS } from "./constants";
 import { NoteColor } from "./types";
 
 function chordHasColor(colors: Array<NoteColor>, color: NoteColor): boolean {
@@ -40,6 +41,9 @@ function keysMatchChord(chord: number, keys: Controls) {
 }
 
 export default class Game {
+  private _gameCanvas: GameCanvas;
+  private _audioPlayer: HTMLAudioElement | null;
+  private _videoPlayer: HTMLVideoElement | null;
   private _controls: Controls;
   private _trackNotes: TrackNotes;
   private _track: Track;
@@ -50,23 +54,44 @@ export default class Game {
   private _badStrums: number;
   private _score: number;
   private _winLoss: number;
+  private _duration: number | undefined;
 
-  constructor(trackNotes: TrackNotes) {
+  constructor(trackNotes: TrackNotes, trackName: string, audioSource: string, videoSource: string) {
+    this._gameCanvas = new GameCanvas();
+    this._audioPlayer = <HTMLAudioElement>document.getElementById(DOM_IDS.AUDIO_PLAYER);
+    this._videoPlayer = <HTMLVideoElement>document.getElementById(DOM_IDS.VIDEO_PLAYER);
     this._controls = new Controls();
     this._trackNotes = trackNotes;
-    this._track = new Track(trackNotes);
+    this._track = new Track(trackNotes, trackName, audioSource, videoSource);
     this._backgroundCanvas = new BackgroundCanvas();
+    this._duration = 0;
     this._process = -1;
     this._notesHit = 0;
     this._notesMissed = 0;
     this._badStrums = 0;
     this._score = 0;
     this._winLoss = 0;
+    this._audioPlayer.onloadedmetadata = () => {
+      this._duration = this._audioPlayer?.duration;
+    };
+  }
+
+  startAudio(): void {
+    this._audioPlayer?.play();
+  }
+
+  startVideo(): void {
+    this._videoPlayer?.play();
+  }
+
+  startAV(): void {
+    this.startAudio();
+    this.startVideo();
   }
 
   start(gameOver: () => void): void {
     this._backgroundCanvas.initialize();
-    this._track.startAV();
+    this.startAV();
     this._process = window.setInterval(() => {
       this._track.progress(
         this._controls,
@@ -110,6 +135,12 @@ export default class Game {
         () => {
           this._notesMissed++;
           this.decreaseWinLoss();
+        },
+        (note: Note) => {
+          this._gameCanvas.moveNote(note);
+        },
+        () => {
+          this._gameCanvas.clearBottom();
         }
       );
 
