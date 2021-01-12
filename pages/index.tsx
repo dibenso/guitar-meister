@@ -36,7 +36,7 @@ class Home extends Component<Props, unknown> {
         <div>
           {play || create ? (
             <div>
-              {play && <Play />}
+              {play ? <Play /> : null}
               {create && <Create />}
             </div>
           ) : (

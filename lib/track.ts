@@ -7,20 +7,26 @@ export default class Track {
   private _currentChord: Array<Note>;
   private _anyValidNote: boolean;
   private _name: string;
+  private _artist: string;
   private _audioSource: string;
   private _videoSource: string;
 
-  constructor(trackNotes: TrackNotes, name: string, audioSource: string, videoSource: string) {
+  constructor(trackNotes: TrackNotes, name: string, artist: string, audioSource: string, videoSource: string) {
     this._notes = trackNotes.notes;
     this._currentChord = [];
     this._anyValidNote = false;
     this._name = name;
+    this._artist = artist;
     this._audioSource = audioSource;
     this._videoSource = videoSource;
   }
 
   get name(): string {
     return this._name;
+  }
+
+  get artist(): string {
+    return this._artist;
   }
 
   get audioSource(): string {

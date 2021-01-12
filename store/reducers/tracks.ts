@@ -1,12 +1,13 @@
 import Track from "../../lib/track";
 import { TracksActionTypes, ADD_TRACK } from "../actionTypes/tracks";
+import tracks from "../../tracks";
 
 export interface TracksState {
   tracks: Array<Track>;
 }
 
 const initialState = {
-  tracks: []
+  tracks
 };
 
 const tracksReducer = (state: TracksState = initialState, action: TracksActionTypes): TracksState => {

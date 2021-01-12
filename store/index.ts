@@ -3,6 +3,7 @@ import { MakeStore, createWrapper } from "next-redux-wrapper";
 import thunkMiddleware from "redux-thunk";
 import appReducer from "./reducers/app";
 import gameReducer from "./reducers/game";
+import tracksReducer from "./reducers/tracks";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const bindMiddleware = (middleware: any) => {
@@ -16,14 +17,14 @@ const bindMiddleware = (middleware: any) => {
 
 const rootReducer = combineReducers({
   app: appReducer,
-  game: gameReducer
+  game: gameReducer,
+  tracks: tracksReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
 
 // create a makeStore function
-const makeStore: MakeStore<RootState> = () =>
-  createStore(combineReducers({ app: appReducer, game: gameReducer }), bindMiddleware([thunkMiddleware]));
+const makeStore: MakeStore<RootState> = () => createStore(rootReducer, bindMiddleware([thunkMiddleware]));
 
 // export an assembled wrapper
 export const wrapper = createWrapper<RootState>(makeStore, { debug: true });
