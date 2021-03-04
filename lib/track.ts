@@ -45,6 +45,10 @@ export default class Track {
     return this._anyValidNote;
   }
 
+  get notes(): Array<Note> {
+    return this._notes;
+  }
+
   progress(
     controls: Controls,
     validNoteHit: (note: Note) => void,
