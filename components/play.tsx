@@ -24,7 +24,7 @@ class Play extends Component<Props, unknown> {
     const { tracks, selectedTrack, setTrack } = this.props;
 
     return (
-      <div>
+      <>
         {selectedTrack ? (
           <Game track={selectedTrack} />
         ) : (
@@ -56,7 +56,7 @@ class Play extends Component<Props, unknown> {
             )}
           </Downshift>
         )}
-      </div>
+      </>
     );
   }
 }

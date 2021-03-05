@@ -32,6 +32,7 @@ class Home extends Component<Props, unknown> {
         <Head>
           <title>Guitar Meister</title>
           <link rel="icon" href="/favicon.ico" />
+          <link rel="stylesheet" href="/css/app.css" />
         </Head>
         <div>
           {play || create ? (
