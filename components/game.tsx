@@ -22,11 +22,6 @@ export default class Game extends Component<Props, State> {
     };
   }
 
-  shouldComponentUpdate(): boolean {
-    if (this.state.gameStarted) return false;
-    return true;
-  }
-
   componentDidUpdate(): void {
     if (this.state.gameStarted) {
       const trackNotes = new TrackNotes(track.notes);
