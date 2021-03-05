@@ -4,8 +4,10 @@ import { connect, ConnectedProps } from "react-redux";
 import { Dispatch } from "redux";
 import { RootState } from "../store";
 import { setPlay, setCreate } from "../store/actions/app";
+import Layout from "../components/layout";
 import Play from "../components/play";
 import Create from "../components/create";
+import { APP_NAME } from "../constants";
 import styles from "../styles/Home.module.css";
 
 const mapStateToProps = (state: RootState) => {
@@ -25,9 +27,9 @@ type Props = ConnectedProps<typeof connector>;
 
 const Home: React.FunctionComponent<Props> = ({ play, create, setPlay, setCreate }: Props) => {
   return (
-    <>
+    <Layout>
       <Head>
-        <title>Guitar Meister</title>
+        <title>{APP_NAME}</title>
         <link rel="icon" href="/favicon.ico" />
         <link rel="stylesheet" href="/css/app.css" />
       </Head>
@@ -48,7 +50,7 @@ const Home: React.FunctionComponent<Props> = ({ play, create, setPlay, setCreate
           </>
         )}
       </>
-    </>
+    </Layout>
   );
 };
 
