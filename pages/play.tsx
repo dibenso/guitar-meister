@@ -1,6 +1,5 @@
 import React from "react";
 import Head from "next/head";
-import Downshift from "downshift";
 import { connect, ConnectedProps } from "react-redux";
 import Layout from "../components/layout";
 import Game from "../components/game";
@@ -30,33 +29,15 @@ const Play: React.FunctionComponent<Props> = ({ tracks, selectedTrack, setTrack 
     {selectedTrack ? (
       <Game track={selectedTrack} />
     ) : (
-      <Downshift
-        onChange={selection => setTrack(selection)}
-        itemToString={item => (item ? `Song: ${item.name} - By: ${item.artist}` : "")}>
-        {({ getItemProps, getLabelProps, getMenuProps, selectedItem }) => (
-          <div>
-            <label {...getLabelProps()}>Select A Track</label>
-            <ul {...getMenuProps()}>
-              {tracks.map((item, index) => (
-                <li
-                  key={index}
-                  {...getItemProps({
-                    key: index,
-                    index,
-                    item,
-                    style: {
-                      textAlign: "center",
-                      backgroundColor: selectedItem === item ? "yellow" : "lightgray"
-                    }
-                  })}>
-                  <p>{item.name}</p>
-                  <p>By: {item.artist}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </Downshift>
+      <ul>
+        {tracks.map((item, index) => (
+          <li key={index}>
+            <p>{item.name}</p>
+            <p>By: {item.artist}</p>
+            <button onClick={() => setTrack(item)}>Play</button>
+          </li>
+        ))}
+      </ul>
     )}
   </Layout>
 );
