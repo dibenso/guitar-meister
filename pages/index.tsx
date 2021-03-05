@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import Head from "next/head";
 import { connect, ConnectedProps } from "react-redux";
 import { Dispatch } from "redux";
@@ -23,37 +23,33 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type Props = ConnectedProps<typeof connector>;
 
-class Home extends Component<Props, unknown> {
-  render(): JSX.Element {
-    const { play, create } = this.props;
-
-    return (
-      <div>
-        <Head>
-          <title>Guitar Meister</title>
-          <link rel="icon" href="/favicon.ico" />
-          <link rel="stylesheet" href="/css/app.css" />
-        </Head>
-        <div>
-          {play || create ? (
-            <div>
-              {play ? <Play /> : null}
-              {create && <Create />}
-            </div>
-          ) : (
-            <div>
-              <button className={styles.btn} onClick={() => this.props.setPlay()}>
-                Play a Track
-              </button>
-              <button className={styles.btn} onClick={() => this.props.setCreate()}>
-                Create a Track
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  }
-}
+const Home: React.FunctionComponent<Props> = ({ play, create, setPlay, setCreate }: Props) => {
+  return (
+    <>
+      <Head>
+        <title>Guitar Meister</title>
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="/css/app.css" />
+      </Head>
+      <>
+        {play || create ? (
+          <>
+            {play ? <Play /> : null}
+            {create && <Create />}
+          </>
+        ) : (
+          <>
+            <button className={styles.btn} onClick={() => setPlay()}>
+              Play a Track
+            </button>
+            <button className={styles.btn} onClick={() => setCreate()}>
+              Create a Track
+            </button>
+          </>
+        )}
+      </>
+    </>
+  );
+};
 
 export default connector(Home);

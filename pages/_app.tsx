@@ -1,10 +1,8 @@
 import React from "react";
 import { wrapper } from "../store";
 
-import type { AppProps /*, AppContext */ } from "next/app";
+import type { AppProps } from "next/app";
 
-function MyApp({ Component, pageProps }: AppProps): JSX.Element {
-  return <Component {...pageProps} />;
-}
+const App: React.FunctionComponent<AppProps> = ({ Component, pageProps }: AppProps) => <Component {...pageProps} />;
 
-export default wrapper.withRedux(MyApp);
+export default wrapper.withRedux(App);

@@ -1,11 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
 
-export default class Create extends Component {
-  render(): JSX.Element {
-    return (
-      <div>
-        <h1>Create a Track</h1>
-      </div>
-    );
-  }
-}
+const Create: React.FunctionComponent = () => <h1>Create a Track</h1>;
+
+export default Create;
