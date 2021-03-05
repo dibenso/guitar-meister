@@ -1,7 +1,10 @@
 import React from "react";
+import Head from "next/head";
 import Downshift from "downshift";
 import { connect, ConnectedProps } from "react-redux";
-import Game from "./game";
+import Layout from "../components/layout";
+import Game from "../components/game";
+import { APP_NAME } from "../constants";
 import { RootState } from "../store";
 import * as gameActions from "../store/actions/game";
 import Track from "../lib/track";
@@ -20,7 +23,10 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type Props = ConnectedProps<typeof connector>;
 
 const Play: React.FunctionComponent<Props> = ({ tracks, selectedTrack, setTrack }: Props) => (
-  <>
+  <Layout>
+    <Head>
+      <title key="title">{`${APP_NAME} - Play`}</title>
+    </Head>
     {selectedTrack ? (
       <Game track={selectedTrack} />
     ) : (
@@ -52,7 +58,7 @@ const Play: React.FunctionComponent<Props> = ({ tracks, selectedTrack, setTrack 
         )}
       </Downshift>
     )}
-  </>
+  </Layout>
 );
 
 export default connector(Play);

@@ -1,57 +1,24 @@
 import React from "react";
 import Head from "next/head";
-import { connect, ConnectedProps } from "react-redux";
-import { Dispatch } from "redux";
-import { RootState } from "../store";
-import { setPlay, setCreate } from "../store/actions/app";
+import Link from "next/link";
 import Layout from "../components/layout";
-import Play from "../components/play";
-import Create from "../components/create";
 import { APP_NAME } from "../constants";
 import styles from "../styles/Home.module.css";
 
-const mapStateToProps = (state: RootState) => {
-  const { play, create } = state.app;
-
-  return { play, create };
-};
-const mapDispatchToProps = (dispatch: Dispatch) => {
-  return {
-    setPlay: () => dispatch(setPlay()),
-    setCreate: () => dispatch(setCreate())
-  };
-};
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-type Props = ConnectedProps<typeof connector>;
-
-const Home: React.FunctionComponent<Props> = ({ play, create, setPlay, setCreate }: Props) => {
+const Home: React.FunctionComponent = () => {
   return (
     <Layout>
       <Head>
-        <title>{APP_NAME}</title>
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="stylesheet" href="/css/app.css" />
+        <title key="title">{APP_NAME}</title>
       </Head>
-      <>
-        {play || create ? (
-          <>
-            {play ? <Play /> : null}
-            {create && <Create />}
-          </>
-        ) : (
-          <>
-            <button className={styles.btn} onClick={() => setPlay()}>
-              Play a Track
-            </button>
-            <button className={styles.btn} onClick={() => setCreate()}>
-              Create a Track
-            </button>
-          </>
-        )}
-      </>
+      <Link href="/play">
+        <button className={styles.btn}>Play a Track</button>
+      </Link>
+      <Link href="/create">
+        <button className={styles.btn}>Create a Track</button>
+      </Link>
     </Layout>
   );
 };
 
-export default connector(Home);
+export default Home;
