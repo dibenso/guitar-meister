@@ -1,10 +1,10 @@
-import Game from "./game";
+import Game, { GameOptions } from "./game";
 import Track from "./track";
 
 export default class GuitarMeister {
-  static start(track: Track): boolean {
+  static start(track: Track, options: GameOptions = {}): boolean {
     if (track.notes.validate()) {
-      const game = new Game(track);
+      const game = new Game(track, options);
 
       game.start(() => alert("Game Over"));
 

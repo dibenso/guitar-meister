@@ -1,18 +1,26 @@
 import React, { useState, useEffect } from "react";
 import GuitarMeister from "../lib";
-import { DOM_IDS } from "../lib/constants";
+import { GameOptions } from "../lib/game";
 import Track from "../lib/track";
+import { DOM_IDS } from "../lib/constants";
 
 interface Props {
   track: Track;
 }
+
+const options: GameOptions = {
+  onNoteHit: () => console.log("Note hit"),
+  onChordHit: () => console.log("Chord hit"),
+  onMissed: () => console.log("Note missed"),
+  onBadStrum: () => console.log("Bad strum")
+};
 
 const Game: React.FunctionComponent<Props> = ({ track }: Props) => {
   const [gameStarted, setGameStarted] = useState(false);
 
   useEffect(() => {
     if (gameStarted)
-      if (!GuitarMeister.start(track))
+      if (!GuitarMeister.start(track, options))
         // dont start game if track notes are invalid
         setGameStarted(false);
   }, [gameStarted]);

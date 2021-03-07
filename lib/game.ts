@@ -40,6 +40,15 @@ function keysMatchChord(chord: number, keys: Controls) {
   else return false;
 }
 
+type NoteHook = (note: Note) => void;
+
+interface GameOptions {
+  onNoteHit?: NoteHook;
+  onChordHit?: (chord: Note[]) => void;
+  onMissed?: NoteHook;
+  onBadStrum?: () => void;
+}
+
 export default class Game {
   private _gameCanvas: GameCanvas;
   private _audioPlayer: HTMLAudioElement | null;
@@ -55,8 +64,9 @@ export default class Game {
   private _score: number;
   private _winLoss: number;
   private _duration: number | undefined;
+  private _options: GameOptions;
 
-  constructor(track: Track) {
+  constructor(track: Track, options: GameOptions = {}) {
     this._gameCanvas = new GameCanvas();
     this._audioPlayer = <HTMLAudioElement>document.getElementById(DOM_IDS.AUDIO_PLAYER);
     this._videoPlayer = <HTMLVideoElement>document.getElementById(DOM_IDS.VIDEO_PLAYER);
@@ -74,6 +84,7 @@ export default class Game {
     this._audioPlayer.onloadedmetadata = () => {
       this._duration = this._audioPlayer?.duration;
     };
+    this._options = options;
   }
 
   startAudio(): void {
@@ -121,6 +132,8 @@ export default class Game {
               if (this._controls.orange) this.setNoteHit(note);
               break;
           }
+
+          if (this._options.onNoteHit) this._options.onNoteHit(note);
         },
         () => {
           const colors = this._track.currentChord.map(note => note.color);
@@ -131,10 +144,14 @@ export default class Game {
               this.setNoteHit(note);
             }
           }
+
+          if (this._options.onChordHit) this._options.onChordHit(this._track.currentChord);
         },
-        () => {
+        note => {
           this._notesMissed++;
           this.decreaseWinLoss();
+
+          if (this._options.onMissed) this._options.onMissed(note);
         },
         (note: Note) => {
           this._gameCanvas.moveNote(note);
@@ -167,8 +184,14 @@ export default class Game {
   }
 
   private badStrumCallback(): void {
-    if ((!this._track.anyNoteValid && this._controls.strum) || (this._controls.emptyControls() && this._controls.strum))
+    if (
+      (!this._track.anyNoteValid && this._controls.strum) ||
+      (this._controls.emptyControls() && this._controls.strum)
+    ) {
       this._badStrums++;
+
+      if (this._options.onBadStrum) this._options.onBadStrum();
+    }
   }
 
   private setNoteHit(note: Note): void {

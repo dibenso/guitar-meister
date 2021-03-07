@@ -53,7 +53,7 @@ export default class Track {
     controls: Controls,
     validNoteHit: (note: Note) => void,
     validChordHit: () => void,
-    missed: () => void,
+    missed: (note: Note) => void,
     moveNote: (note: Note) => void,
     clearBottom: () => void
   ): void {
@@ -68,7 +68,7 @@ export default class Track {
       if (note.onScreen()) moveNote(note);
       if (!note.hit && !note.missed && note.pastNoteHit()) {
         note.setMissed();
-        missed();
+        missed(note);
       }
       if (note.onNoteHit() && note.chord && !note.hit && !note.missed) this._currentChord.push(note);
       else if (note.onNoteHit() && controls.strum && !note.hit && !note.missed) validNoteHit(note);
