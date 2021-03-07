@@ -42,7 +42,7 @@ function keysMatchChord(chord: number, keys: Controls) {
 
 type NoteHook = (note: Note) => void;
 
-interface GameOptions {
+export interface GameOptions {
   onNoteHit?: NoteHook;
   onChordHit?: (chord: Note[]) => void;
   onMissed?: NoteHook;
@@ -103,69 +103,84 @@ export default class Game {
   start(gameOver: () => void): void {
     this._backgroundCanvas.initialize();
     this.startAV();
-    this._process = window.setInterval(() => {
-      this._track.progress(
-        this._controls,
-        note => {
-          switch (note.color) {
-            case COLORS.GREEN:
-              if (
-                this._controls.green &&
-                !this._controls.red &&
-                !this._controls.yellow &&
-                !this._controls.blue &&
-                !this._controls.orange
-              )
-                this.setNoteHit(note);
-              break;
-            case COLORS.RED:
-              if (this._controls.red && !this._controls.yellow && !this._controls.blue && !this._controls.orange)
-                this.setNoteHit(note);
-              break;
-            case COLORS.YELLOW:
-              if (this._controls.yellow && !this._controls.blue && !this._controls.orange) this.setNoteHit(note);
-              break;
-            case COLORS.BLUE:
-              if (this._controls.blue && !this._controls.orange) this.setNoteHit(note);
-              break;
-            case COLORS.ORANGE:
-              if (this._controls.orange) this.setNoteHit(note);
-              break;
-          }
 
-          if (this._options.onNoteHit) this._options.onNoteHit(note);
-        },
-        () => {
-          const colors = this._track.currentChord.map(note => note.color);
-          const bitChord = buildBitChord(colors);
+    const interval = 20;
+    let then = Date.now();
 
-          if (keysMatchChord(bitChord, this._controls)) {
-            for (const note of this._track.currentChord) {
-              this.setNoteHit(note);
+    const loop = () => {
+      this._process = window.requestAnimationFrame(loop);
+
+      const now = Date.now();
+      const elapsed = now - then;
+
+      if (elapsed > interval) {
+        then = now - (elapsed % interval);
+
+        this._track.progress(
+          this._controls,
+          note => {
+            switch (note.color) {
+              case COLORS.GREEN:
+                if (
+                  this._controls.green &&
+                  !this._controls.red &&
+                  !this._controls.yellow &&
+                  !this._controls.blue &&
+                  !this._controls.orange
+                )
+                  this.setNoteHit(note);
+                break;
+              case COLORS.RED:
+                if (this._controls.red && !this._controls.yellow && !this._controls.blue && !this._controls.orange)
+                  this.setNoteHit(note);
+                break;
+              case COLORS.YELLOW:
+                if (this._controls.yellow && !this._controls.blue && !this._controls.orange) this.setNoteHit(note);
+                break;
+              case COLORS.BLUE:
+                if (this._controls.blue && !this._controls.orange) this.setNoteHit(note);
+                break;
+              case COLORS.ORANGE:
+                if (this._controls.orange) this.setNoteHit(note);
+                break;
             }
+
+            if (this._options.onNoteHit) this._options.onNoteHit(note);
+          },
+          () => {
+            const colors = this._track.currentChord.map(note => note.color);
+            const bitChord = buildBitChord(colors);
+
+            if (keysMatchChord(bitChord, this._controls)) {
+              for (const note of this._track.currentChord) {
+                this.setNoteHit(note);
+              }
+            }
+
+            if (this._options.onChordHit) this._options.onChordHit(this._track.currentChord);
+          },
+          note => {
+            this._notesMissed++;
+            this.decreaseWinLoss();
+
+            if (this._options.onMissed) this._options.onMissed(note);
+          },
+          (note: Note) => {
+            this._gameCanvas.moveNote(note);
+          },
+          () => {
+            this._gameCanvas.clearBottom();
           }
+        );
 
-          if (this._options.onChordHit) this._options.onChordHit(this._track.currentChord);
-        },
-        note => {
-          this._notesMissed++;
-          this.decreaseWinLoss();
-
-          if (this._options.onMissed) this._options.onMissed(note);
-        },
-        (note: Note) => {
-          this._gameCanvas.moveNote(note);
-        },
-        () => {
-          this._gameCanvas.clearBottom();
+        if (this.isGameOver()) {
+          this.clearProcess();
+          gameOver();
         }
-      );
-
-      if (this.isGameOver()) {
-        this.clearProcess();
-        gameOver();
       }
-    }, 20);
+    };
+
+    window.requestAnimationFrame(loop);
 
     document.addEventListener("keydown", event => {
       this.keyEventHandler(event, false);
@@ -203,7 +218,7 @@ export default class Game {
   }
 
   private clearProcess(): void {
-    clearInterval(this._process);
+    window.cancelAnimationFrame(this._process);
   }
 
   private isGameOver(): boolean {
