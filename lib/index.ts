@@ -1,17 +1,17 @@
 import Game from "./game";
-import TrackNotes from "./trackNotes";
+import Track from "./track";
 
 export default class GuitarMeister {
-  static start(trackNotes: TrackNotes): boolean {
-    if (trackNotes.validate()) {
-      const game = new Game(trackNotes);
-      game.start(() => {
-        alert("Game Over");
-      });
+  static start(track: Track): boolean {
+    if (track.notes.validate()) {
+      const game = new Game(track);
+
+      game.start(() => alert("Game Over"));
+
       return true;
     } else {
       alert(
-        `Malformed Track note(s). Please ensure that this Track was created with the Track creation tool. Error: ${trackNotes.validationReasons}`
+        `Malformed Track note(s). Please ensure that this Track was created with the Track creation tool. Error: ${track.notes.validationReasons}`
       );
       return false;
     }

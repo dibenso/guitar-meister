@@ -3,7 +3,7 @@ import Note from "./note";
 import Controls from "./controls";
 
 export default class Track {
-  private _notes: Array<Note>;
+  private _notes: TrackNotes;
   private _currentChord: Array<Note>;
   private _anyValidNote: boolean;
   private _name: string;
@@ -12,7 +12,7 @@ export default class Track {
   private _videoSource: string;
 
   constructor(trackNotes: TrackNotes, name: string, artist: string, audioSource: string, videoSource: string) {
-    this._notes = trackNotes.notes;
+    this._notes = trackNotes;
     this._currentChord = [];
     this._anyValidNote = false;
     this._name = name;
@@ -45,7 +45,7 @@ export default class Track {
     return this._anyValidNote;
   }
 
-  get notes(): Array<Note> {
+  get notes(): TrackNotes {
     return this._notes;
   }
 
@@ -60,7 +60,7 @@ export default class Track {
     let anyNoteValid = false;
     this._currentChord = [];
 
-    for (const note of this._notes) {
+    for (const note of this._notes.notes) {
       clearBottom();
 
       if (note.onNoteHit()) anyNoteValid = true;
@@ -70,7 +70,7 @@ export default class Track {
         note.setMissed();
         missed();
       }
-      if (note.onNoteHit && note.chord && !note.hit && !note.missed) this._currentChord.push(note);
+      if (note.onNoteHit() && note.chord && !note.hit && !note.missed) this._currentChord.push(note);
       else if (note.onNoteHit() && controls.strum && !note.hit && !note.missed) validNoteHit(note);
     }
 

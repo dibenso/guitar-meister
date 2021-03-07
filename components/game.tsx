@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import GamePlay from "../lib/game";
+import GuitarMeister from "../lib";
 import { DOM_IDS } from "../lib/constants";
 import Track from "../lib/track";
-import TrackNotes from "../lib/trackNotes";
 
 interface Props {
   track: Track;
@@ -12,14 +11,10 @@ const Game: React.FunctionComponent<Props> = ({ track }: Props) => {
   const [gameStarted, setGameStarted] = useState(false);
 
   useEffect(() => {
-    if (gameStarted) {
-      const trackNotes = new TrackNotes(track.notes);
-      const gamePlay = new GamePlay(trackNotes, track.name, track.artist, track.audioSource, track.videoSource);
-      gamePlay.start(() => {
+    if (gameStarted)
+      if (!GuitarMeister.start(track))
+        // dont start game if track notes are invalid
         setGameStarted(false);
-        alert("Game over");
-      });
-    }
   }, [gameStarted]);
 
   return (

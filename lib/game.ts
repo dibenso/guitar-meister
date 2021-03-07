@@ -56,19 +56,13 @@ export default class Game {
   private _winLoss: number;
   private _duration: number | undefined;
 
-  constructor(
-    trackNotes: TrackNotes,
-    trackName: string,
-    trackArtist: string,
-    audioSource: string,
-    videoSource: string
-  ) {
+  constructor(track: Track) {
     this._gameCanvas = new GameCanvas();
     this._audioPlayer = <HTMLAudioElement>document.getElementById(DOM_IDS.AUDIO_PLAYER);
     this._videoPlayer = <HTMLVideoElement>document.getElementById(DOM_IDS.VIDEO_PLAYER);
     this._controls = new Controls();
-    this._trackNotes = trackNotes;
-    this._track = new Track(trackNotes, trackName, trackArtist, audioSource, videoSource);
+    this._track = track;
+    this._trackNotes = track.notes;
     this._backgroundCanvas = new BackgroundCanvas();
     this._duration = 0;
     this._process = -1;
