@@ -6,7 +6,7 @@ export default class GuitarMeister {
     if (track.notes.validate()) {
       const game = new Game(track, options);
 
-      game.start(() => alert("Game Over"));
+      game.start();
 
       return true;
     } else {

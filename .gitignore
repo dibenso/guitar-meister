@@ -32,7 +32,3 @@ yarn-error.log*
 
 # vercel
 .vercel
-
-# Ignore audio / video folders (for now)
-public/audio
-public/video

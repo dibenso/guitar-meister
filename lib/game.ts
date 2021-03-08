@@ -47,6 +47,7 @@ export interface GameOptions {
   onChordHit?: (chord: Note[]) => void;
   onMissed?: NoteHook;
   onBadStrum?: () => void;
+  onGameOver?: () => void;
 }
 
 export default class Game {
@@ -114,7 +115,9 @@ export default class Game {
     this._videoPlayer?.play();
   }
 
-  start(gameOver: () => void): void {
+  start(): void {
+    const { onNoteHit, onChordHit, onMissed, onGameOver } = this._options;
+
     this._backgroundCanvas.initialize();
     this.startAV();
 
@@ -159,7 +162,7 @@ export default class Game {
                 break;
             }
 
-            if (this._options.onNoteHit) this._options.onNoteHit(note);
+            if (onNoteHit) onNoteHit(note);
           },
           () => {
             const colors = this._track.currentChord.map(note => note.color);
@@ -171,13 +174,13 @@ export default class Game {
               }
             }
 
-            if (this._options.onChordHit) this._options.onChordHit(this._track.currentChord);
+            if (onChordHit) onChordHit(this._track.currentChord);
           },
           note => {
             this._notesMissed++;
             this.decreaseWinLoss();
 
-            if (this._options.onMissed) this._options.onMissed(note);
+            if (onMissed) onMissed(note);
           },
           (note: Note) => this._gameCanvas.moveNote(note),
           () => this._gameCanvas.clearBottom()
@@ -187,7 +190,8 @@ export default class Game {
           this.clearProcess();
           this._audioPlayer?.pause();
           this._videoPlayer?.pause();
-          gameOver();
+
+          if (onGameOver) onGameOver();
         }
       }
     };

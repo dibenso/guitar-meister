@@ -12,7 +12,13 @@ const options: GameOptions = {
   onNoteHit: () => console.log("Note hit"),
   onChordHit: () => console.log("Chord hit"),
   onMissed: () => console.log("Note missed"),
-  onBadStrum: () => console.log("Bad strum")
+  onBadStrum: () => console.log("Bad strum"),
+  onGameOver: () => {
+    const gameOverAudio = document.getElementById("game-over-audio") as HTMLAudioElement;
+
+    gameOverAudio?.play();
+    alert("Game over");
+  }
 };
 
 const Game: React.FunctionComponent<Props> = ({ track }: Props) => {
@@ -32,6 +38,9 @@ const Game: React.FunctionComponent<Props> = ({ track }: Props) => {
           <audio id={DOM_IDS.AUDIO_PLAYER}>
             <source src={`audio/${track.audioSource}`} type="audio/mp3" />
             Your browser does not support HTML5 audio.
+          </audio>
+          <audio id="game-over-audio">
+            <source src="audio/boo.mp3" type="audio/mp3" />
           </audio>
           <div id="stack">
             <video autoPlay muted id={DOM_IDS.VIDEO_PLAYER} width="780" height="540">
