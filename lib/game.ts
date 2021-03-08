@@ -185,8 +185,8 @@ export default class Game {
 
         if (this.isGameOver()) {
           this.clearProcess();
-          this._audioPlayer = null;
-          this._videoPlayer = null;
+          this._audioPlayer?.pause();
+          this._videoPlayer?.pause();
           gameOver();
         }
       }
