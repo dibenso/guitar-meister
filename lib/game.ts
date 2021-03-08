@@ -64,6 +64,7 @@ export default class Game {
   private _score: number;
   private _winLoss: number;
   private _duration: number | undefined;
+  private _paused: boolean;
   private _options: GameOptions;
 
   constructor(track: Track, options: GameOptions = {}) {
@@ -81,6 +82,7 @@ export default class Game {
     this._badStrums = 0;
     this._score = 0;
     this._winLoss = 0;
+    this._paused = false;
     this._audioPlayer.onloadedmetadata = () => {
       this._duration = this._audioPlayer?.duration;
     };
@@ -100,6 +102,18 @@ export default class Game {
     this.startVideo();
   }
 
+  pause(): void {
+    this._paused = true;
+    this._audioPlayer?.pause();
+    this._videoPlayer?.pause();
+  }
+
+  resume(): void {
+    this._paused = false;
+    this._audioPlayer?.play();
+    this._videoPlayer?.play();
+  }
+
   start(gameOver: () => void): void {
     this._backgroundCanvas.initialize();
     this.startAV();
@@ -113,7 +127,7 @@ export default class Game {
       const now = Date.now();
       const elapsed = now - then;
 
-      if (elapsed > interval) {
+      if (elapsed > interval && !this._paused) {
         then = now - (elapsed % interval);
 
         this._track.progress(
@@ -165,16 +179,14 @@ export default class Game {
 
             if (this._options.onMissed) this._options.onMissed(note);
           },
-          (note: Note) => {
-            this._gameCanvas.moveNote(note);
-          },
-          () => {
-            this._gameCanvas.clearBottom();
-          }
+          (note: Note) => this._gameCanvas.moveNote(note),
+          () => this._gameCanvas.clearBottom()
         );
 
         if (this.isGameOver()) {
           this.clearProcess();
+          this._audioPlayer = null;
+          this._videoPlayer = null;
           gameOver();
         }
       }

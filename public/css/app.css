@@ -6,5 +6,5 @@ video {
 #stack > canvas, video {
   position: absolute;
   left: 22%;
-  top: 50px;
+  top: 100px;
 }
