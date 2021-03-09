@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import GuitarMeister from "../lib";
-import { GameOptions } from "../lib/game";
+import { GameOptions } from "../lib/types";
 import Track from "../lib/track";
 import { DOM_IDS } from "../lib/constants";
 

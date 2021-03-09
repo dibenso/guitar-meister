@@ -4,51 +4,9 @@ import TrackNotes from "./trackNotes";
 import Track from "./track";
 import GameCanvas from "./canvas/game";
 import BackgroundCanvas from "./canvas/background";
+import { buildBitChord, keysMatchChord } from "./utils";
+import { GameOptions } from "./types";
 import { COLORS, DOM_IDS } from "./constants";
-import { NoteColor } from "./types";
-
-function chordHasColor(colors: Array<NoteColor>, color: NoteColor): boolean {
-  for (const c of colors) {
-    if (c === color) return true;
-  }
-
-  return false;
-}
-
-function buildBitChord(colors: Array<NoteColor>): number {
-  let chord = 0;
-
-  chord |= chordHasColor(colors, COLORS.GREEN) ? 1 << 1 : 0;
-  chord |= chordHasColor(colors, COLORS.RED) ? 1 << 2 : 0;
-  chord |= chordHasColor(colors, COLORS.YELLOW) ? 1 << 3 : 0;
-  chord |= chordHasColor(colors, COLORS.BLUE) ? 1 << 4 : 0;
-  chord |= chordHasColor(colors, COLORS.ORANGE) ? 1 << 5 : 0;
-
-  return chord;
-}
-
-function keysMatchChord(chord: number, keys: Controls) {
-  let keyChord = 0;
-
-  keyChord |= keys.green ? 1 << 1 : 0;
-  keyChord |= keys.red ? 1 << 2 : 0;
-  keyChord |= keys.yellow ? 1 << 3 : 0;
-  keyChord |= keys.blue ? 1 << 4 : 0;
-  keyChord |= keys.orange ? 1 << 5 : 0;
-
-  if (keyChord === chord) return true;
-  else return false;
-}
-
-type NoteHook = (note: Note) => void;
-
-export interface GameOptions {
-  onNoteHit?: NoteHook;
-  onChordHit?: (chord: Note[]) => void;
-  onMissed?: NoteHook;
-  onBadStrum?: () => void;
-  onGameOver?: () => void;
-}
 
 export default class Game {
   private _gameCanvas: GameCanvas;
