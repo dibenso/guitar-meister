@@ -16,6 +16,8 @@ export interface GameOptions {
   onMissed?: NoteHook;
   onBadStrum?: () => void;
   onGameOver?: () => void;
+  onPause?: () => void;
+  onResume?: () => void;
 }
 
 // like keyboard event but only contains what we need

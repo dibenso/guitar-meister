@@ -8,21 +8,23 @@ interface Props {
   track: Track;
 }
 
-const options: GameOptions = {
-  onNoteHit: () => console.log("Note hit"),
-  onChordHit: () => console.log("Chord hit"),
-  onMissed: () => console.log("Note missed"),
-  onBadStrum: () => console.log("Bad strum"),
-  onGameOver: () => {
-    const gameOverAudio = document.getElementById("game-over-audio") as HTMLAudioElement;
-
-    gameOverAudio?.play();
-    alert("Game over");
-  }
-};
-
 const Game: React.FunctionComponent<Props> = ({ track }: Props) => {
   const [gameStarted, setGameStarted] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const options: GameOptions = {
+    onNoteHit: () => console.log("Note hit"),
+    onChordHit: () => console.log("Chord hit"),
+    onMissed: () => console.log("Note missed"),
+    onBadStrum: () => console.log("Bad strum"),
+    onGameOver: () => {
+      const gameOverAudio = document.getElementById("game-over-audio") as HTMLAudioElement;
+
+      gameOverAudio?.play();
+      alert("Game over");
+    },
+    onPause: () => setPaused(true),
+    onResume: () => setPaused(false)
+  };
 
   useEffect(() => {
     if (gameStarted)
@@ -35,6 +37,7 @@ const Game: React.FunctionComponent<Props> = ({ track }: Props) => {
     <>
       {gameStarted ? (
         <>
+          {paused && <h2>Game paused</h2>}
           <audio id={DOM_IDS.AUDIO_PLAYER}>
             <source src={`audio/${track.audioSource}`} type="audio/mp3" />
             Your browser does not support HTML5 audio.

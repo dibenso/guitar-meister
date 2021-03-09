@@ -68,12 +68,16 @@ export default class Game {
     this._paused = true;
     this._audioPlayer?.pause();
     this._videoPlayer?.pause();
+
+    if (this._options.onPause) this._options.onPause();
   }
 
   resume(): void {
     this._paused = false;
     this._audioPlayer?.play();
     this._videoPlayer?.play();
+
+    if (this._options.onResume) this._options.onResume();
   }
 
   start(): void {
