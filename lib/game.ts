@@ -203,7 +203,8 @@ export default class Game {
     this._notesHit++;
     this._score += 10;
     this.increaseWinLoss();
-    this.logData();
+
+    if (this._options.onScoreChange) this._options.onScoreChange(this._score);
   }
 
   private clearProcess(): void {

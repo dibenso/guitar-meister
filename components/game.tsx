@@ -11,6 +11,7 @@ interface Props {
 const Game: React.FunctionComponent<Props> = ({ track }: Props) => {
   const [gameStarted, setGameStarted] = useState(false);
   const [paused, setPaused] = useState(false);
+  const [score, setScore] = useState(0);
   const options: GameOptions = {
     onNoteHit: () => console.log("Note hit"),
     onChordHit: () => console.log("Chord hit"),
@@ -35,7 +36,8 @@ const Game: React.FunctionComponent<Props> = ({ track }: Props) => {
         context.fillText("Paused", canvas.width / 2, canvas.height / 2);
       }
     },
-    onResume: () => setPaused(false)
+    onResume: () => setPaused(false),
+    onScoreChange: currentScore => setScore(currentScore)
   };
 
   useEffect(() => {
@@ -49,6 +51,7 @@ const Game: React.FunctionComponent<Props> = ({ track }: Props) => {
     <>
       {gameStarted ? (
         <>
+          <h2>{`Score: ${score}`}</h2>
           <audio id={DOM_IDS.AUDIO_PLAYER}>
             <source src={`audio/${track.audioSource}`} type="audio/mp3" />
             Your browser does not support HTML5 audio.
