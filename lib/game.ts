@@ -72,7 +72,6 @@ export default class Game {
     this._gameCanvas = new GameCanvas();
     this._audioPlayer = <HTMLAudioElement>document.getElementById(DOM_IDS.AUDIO_PLAYER);
     this._videoPlayer = <HTMLVideoElement>document.getElementById(DOM_IDS.VIDEO_PLAYER);
-    this._controls = new Controls();
     this._track = track;
     this._trackNotes = track.notes;
     this._backgroundCanvas = new BackgroundCanvas();
@@ -84,6 +83,7 @@ export default class Game {
     this._score = 0;
     this._winLoss = 0;
     this._paused = false;
+    this._controls = new Controls(this.badStrumCallback.bind(this));
     this._audioPlayer.onloadedmetadata = () => {
       this._duration = this._audioPlayer?.duration;
     };
@@ -210,8 +210,8 @@ export default class Game {
   private keyEventHandler(event: KeyboardEvent, up: boolean): void {
     const { code, repeat } = event;
 
-    if (up) this._controls.toggleFromEvent({ code, repeat }, true, this.badStrumCallback.bind(this));
-    else this._controls.toggleFromEvent({ code, repeat }, false, this.badStrumCallback.bind(this));
+    if (up) this._controls.toggleFromEvent({ code, repeat }, true);
+    else this._controls.toggleFromEvent({ code, repeat }, false);
   }
 
   private badStrumCallback(): void {

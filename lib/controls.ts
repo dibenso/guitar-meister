@@ -14,14 +14,16 @@ export default class Controls {
   private _blue: boolean;
   private _orange: boolean;
   private _strum: boolean;
+  private _onBadStrum: () => void;
 
-  constructor() {
+  constructor(onBadStrum: () => void) {
     this._green = false;
     this._red = false;
     this._yellow = false;
     this._blue = false;
     this._orange = false;
     this._strum = false;
+    this._onBadStrum = onBadStrum;
   }
 
   get green(): boolean {
@@ -48,7 +50,7 @@ export default class Controls {
     return this._strum;
   }
 
-  public toggleFromEvent(event: ControlEvent, up: boolean, badStrumCallback: () => void): void {
+  public toggleFromEvent(event: ControlEvent, up: boolean): void {
     const { code, repeat } = event;
 
     switch (code) {
@@ -69,7 +71,7 @@ export default class Controls {
         break;
       case KEYS.STRUM:
         this._strum = up || repeat ? false : true;
-        badStrumCallback();
+        this._onBadStrum();
         break;
     }
   }
