@@ -13,6 +13,11 @@ export interface ControlEvent {
   repeat: boolean;
 }
 
+export interface ControlCallbacks {
+  onBadStrum: () => void;
+  onPause: () => void;
+}
+
 // used by TrackNotes for validation reasons
 export interface ValidationReasons {
   passed?: string;

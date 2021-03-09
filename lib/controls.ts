@@ -1,4 +1,4 @@
-import { ControlEvent } from "./types";
+import { ControlEvent, ControlCallbacks } from "./types";
 import { KEYS } from "./constants";
 
 // used by the Control class toggleFromEvent() method to turn on and off controls
@@ -14,16 +14,16 @@ export default class Controls {
   private _blue: boolean;
   private _orange: boolean;
   private _strum: boolean;
-  private _onBadStrum: () => void;
+  private _callbacks: ControlCallbacks;
 
-  constructor(onBadStrum: () => void) {
+  constructor(callbacks: ControlCallbacks) {
     this._green = false;
     this._red = false;
     this._yellow = false;
     this._blue = false;
     this._orange = false;
     this._strum = false;
-    this._onBadStrum = onBadStrum;
+    this._callbacks = callbacks;
   }
 
   get green(): boolean {
@@ -52,6 +52,7 @@ export default class Controls {
 
   public toggleFromEvent(event: ControlEvent, up: boolean): void {
     const { code, repeat } = event;
+    const { onBadStrum, onPause } = this._callbacks;
 
     switch (code) {
       case KEYS.GREEN:
@@ -71,7 +72,12 @@ export default class Controls {
         break;
       case KEYS.STRUM:
         this._strum = up || repeat ? false : true;
-        this._onBadStrum();
+        onBadStrum();
+        break;
+      case KEYS.PAUSE:
+        onPause();
+        break;
+      default:
         break;
     }
   }

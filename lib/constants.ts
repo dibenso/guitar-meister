@@ -23,7 +23,8 @@ export const KEYS = {
   YELLOW: "Digit3",
   BLUE: "Digit4",
   ORANGE: "Digit6",
-  STRUM: "Space"
+  STRUM: "Space",
+  PAUSE: "Enter"
 };
 export const DOM_IDS = {
   GAME_BACKGROUND_CANVAS: "game-background-canvas",

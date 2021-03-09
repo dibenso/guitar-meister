@@ -83,7 +83,10 @@ export default class Game {
     this._score = 0;
     this._winLoss = 0;
     this._paused = false;
-    this._controls = new Controls(this.badStrumCallback.bind(this));
+    this._controls = new Controls({
+      onBadStrum: this.badStrumCallback.bind(this),
+      onPause: this.pauseCallback.bind(this)
+    });
     this._audioPlayer.onloadedmetadata = () => {
       this._duration = this._audioPlayer?.duration;
     };
@@ -223,6 +226,10 @@ export default class Game {
 
       if (this._options.onBadStrum) this._options.onBadStrum();
     }
+  }
+
+  private pauseCallback(): void {
+    console.log("paused");
   }
 
   private setNoteHit(note: Note): void {
