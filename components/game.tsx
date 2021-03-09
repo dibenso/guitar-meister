@@ -22,7 +22,19 @@ const Game: React.FunctionComponent<Props> = ({ track }: Props) => {
       gameOverAudio?.play();
       alert("Game over");
     },
-    onPause: () => setPaused(true),
+    onPause: () => {
+      setPaused(true);
+
+      const canvas = document.getElementById("pause-screen") as HTMLCanvasElement;
+      const context = canvas.getContext("2d");
+
+      if (context) {
+        context.font = "30px Arial";
+        context.fillStyle = "white";
+        context.textAlign = "center";
+        context.fillText("Paused", canvas.width / 2, canvas.height / 2);
+      }
+    },
     onResume: () => setPaused(false)
   };
 
@@ -37,7 +49,6 @@ const Game: React.FunctionComponent<Props> = ({ track }: Props) => {
     <>
       {gameStarted ? (
         <>
-          {paused && <h2>Game paused</h2>}
           <audio id={DOM_IDS.AUDIO_PLAYER}>
             <source src={`audio/${track.audioSource}`} type="audio/mp3" />
             Your browser does not support HTML5 audio.
@@ -51,6 +62,7 @@ const Game: React.FunctionComponent<Props> = ({ track }: Props) => {
             </video>
             <canvas id={DOM_IDS.GAME_BACKGROUND_CANVAS} width="780" height="540"></canvas>
             <canvas id={DOM_IDS.GAME_CANVAS} width="780" height="540"></canvas>
+            {paused && <canvas id="pause-screen" width="780" height="540"></canvas>}
           </div>
         </>
       ) : (
