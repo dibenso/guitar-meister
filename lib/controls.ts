@@ -75,7 +75,7 @@ export default class Controls {
         onBadStrum();
         break;
       case KEYS.PAUSE:
-        if (!up) onPause();
+        if (!up && !repeat) onPause();
         break;
       default:
         break;
