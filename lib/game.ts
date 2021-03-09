@@ -160,10 +160,14 @@ export default class Game {
     window.requestAnimationFrame(loop);
 
     document.addEventListener("keydown", event => {
+      event.preventDefault();
+
       this.keyEventHandler(event, false);
     });
 
     document.addEventListener("keyup", event => {
+      event.preventDefault();
+
       this.keyEventHandler(event, true);
     });
   }
