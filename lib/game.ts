@@ -229,7 +229,7 @@ export default class Game {
   }
 
   private pauseCallback(): void {
-    this._paused ? this.resume() : this.pause();
+    if (!this.isGameOver()) this._paused ? this.resume() : this.pause();
   }
 
   private setNoteHit(note: Note): void {
