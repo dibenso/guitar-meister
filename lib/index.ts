@@ -1,5 +1,6 @@
-import Game, { GameOptions } from "./game";
+import Game from "./game";
 import Track from "./track";
+import { GameOptions } from "./types";
 
 export default class GuitarMeister {
   static start(track: Track, options: GameOptions = {}): boolean {

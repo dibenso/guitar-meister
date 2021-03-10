@@ -14,16 +14,20 @@ const meterColor = (winLoss: number) => {
 };
 
 const GameMeter: React.FunctionComponent<Props> = ({ winLoss, gameOver }: Props) => (
-  <motion.div
-    animate={{
-      width: 100,
-      height: 400,
-      visibility: gameOver ? "hidden" : "visible",
-      backgroundColor: meterColor(winLoss),
-      scaleY: winLoss
-    }}
-    transition={{ duration: 0.5 }}
-  />
+  <div style={{ position: "relative", width: 100, height: 400, border: "5px solid black", marginLeft: 15 }}>
+    <motion.div
+      animate={{
+        position: "absolute",
+        bottom: 0,
+        width: 95,
+        height: 400,
+        visibility: gameOver ? "hidden" : "visible",
+        backgroundColor: meterColor(winLoss),
+        scaleY: winLoss
+      }}
+      transition={{ duration: 0.5 }}
+    />
+  </div>
 );
 
 export default GameMeter;

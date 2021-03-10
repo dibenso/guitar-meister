@@ -4,7 +4,7 @@ import TrackNotes from "./trackNotes";
 import Track from "./track";
 import GameCanvas from "./canvas/game";
 import BackgroundCanvas from "./canvas/background";
-import { buildBitChord, keysMatchChord } from "./utils";
+import { buildBitChord, keysMatchChord, preventDefaultSpace } from "./utils";
 import { GameOptions } from "./types";
 import { COLORS, DOM_IDS } from "./constants";
 
@@ -166,13 +166,13 @@ export default class Game {
     window.requestAnimationFrame(loop);
 
     document.addEventListener("keydown", event => {
-      event.preventDefault();
+      preventDefaultSpace(event);
 
       this.keyEventHandler(event, false);
     });
 
     document.addEventListener("keyup", event => {
-      event.preventDefault();
+      preventDefaultSpace(event);
 
       this.keyEventHandler(event, true);
     });

@@ -49,3 +49,7 @@ export function keysMatchChord(chord: number, keys: Controls): boolean {
   if (keyChord === chord) return true;
   else return false;
 }
+
+export function preventDefaultSpace(event: KeyboardEvent): void {
+  if (event.code === "Space") event.preventDefault();
+}
