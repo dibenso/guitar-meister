@@ -39,7 +39,7 @@ export default class Game {
     this._notesMissed = 0;
     this._badStrums = 0;
     this._score = 0;
-    this._winLoss = 0;
+    this._winLoss = 0.5;
     this._paused = false;
     this._controls = new Controls({
       onBadStrum: this.badStrumCallback.bind(this),
@@ -158,6 +158,8 @@ export default class Game {
 
           if (onGameOver) onGameOver();
         }
+
+        if (this._options.onProgress) this._options.onProgress(this._winLoss);
       }
     };
 
@@ -212,7 +214,7 @@ export default class Game {
   }
 
   private isGameOver(): boolean {
-    return this._winLoss <= -1.0;
+    return this._winLoss <= 0;
   }
 
   private increaseWinLoss(times = 1): void {

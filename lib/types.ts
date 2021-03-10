@@ -19,6 +19,7 @@ export interface GameOptions {
   onPause?: () => void;
   onResume?: () => void;
   onScoreChange?: (score: number) => void;
+  onProgress?: (winLoss: number) => void;
 }
 
 // like keyboard event but only contains what we need

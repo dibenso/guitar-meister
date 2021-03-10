@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import GameMeter from "./gameMeter";
 import GuitarMeister from "../lib";
 import { GameOptions } from "../lib/types";
 import Track from "../lib/track";
@@ -12,6 +13,7 @@ const Game: React.FunctionComponent<Props> = ({ track }: Props) => {
   const [gameStarted, setGameStarted] = useState(false);
   const [paused, setPaused] = useState(false);
   const [score, setScore] = useState(0);
+  const [winLoss, setWinLoss] = useState(0.5);
   const options: GameOptions = {
     onNoteHit: () => console.log("Note hit"),
     onChordHit: () => console.log("Chord hit"),
@@ -37,7 +39,8 @@ const Game: React.FunctionComponent<Props> = ({ track }: Props) => {
       }
     },
     onResume: () => setPaused(false),
-    onScoreChange: currentScore => setScore(currentScore)
+    onScoreChange: currentScore => setScore(currentScore),
+    onProgress: winLoss => setWinLoss(winLoss)
   };
 
   useEffect(() => {
@@ -52,6 +55,7 @@ const Game: React.FunctionComponent<Props> = ({ track }: Props) => {
       {gameStarted ? (
         <>
           <h2>{`Score: ${score}`}</h2>
+          <GameMeter winLoss={winLoss} />
           <audio id={DOM_IDS.AUDIO_PLAYER}>
             <source src={`audio/${track.audioSource}`} type="audio/mp3" />
             Your browser does not support HTML5 audio.
