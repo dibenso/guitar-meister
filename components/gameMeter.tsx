@@ -14,7 +14,7 @@ const meterColor = (winLoss: number) => {
 };
 
 const GameMeter: React.FunctionComponent<Props> = ({ winLoss, gameOver }: Props) => (
-  <div style={{ position: "relative", width: 100, height: 400, border: "5px solid black", marginLeft: 15 }}>
+  <div style={{ position: "relative", width: 100, height: 409, border: "5px solid black", marginLeft: 15 }}>
     <div
       style={{
         position: "absolute",
