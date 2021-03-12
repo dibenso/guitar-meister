@@ -16,7 +16,7 @@ const GameOver: React.FunctionComponent<Props> = ({ score }: Props) => (
         <p className="text-white cursor-pointer w-auto">Back to Track List</p>
       </Link>
       <audio id="game-over-audio">
-        <source src="audio/boo.mp3" type="audio/mp3" />
+        <source src="/audio/boo.mp3" type="audio/mp3" />
       </audio>
     </div>
   </div>

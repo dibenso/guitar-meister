@@ -74,12 +74,12 @@ const Game: React.FunctionComponent<Props> = ({ track }: Props) => {
               <h2>{`Score: ${score}`}</h2>
               <GameMeter winLoss={winLoss} gameOver={gameOver} />
               <audio id={DOM_IDS.AUDIO_PLAYER}>
-                <source src={`audio/${track.audioSource}`} type="audio/mp3" />
+                <source src={`/audio/${track.audioSource}`} type="audio/mp3" />
                 Your browser does not support HTML5 audio.
               </audio>
               <div id="stack">
                 <video autoPlay muted id={DOM_IDS.VIDEO_PLAYER} width="780" height="540">
-                  <source src={`video/${track.videoSource}`} type="video/mp4" />
+                  <source src={`/video/${track.videoSource}`} type="video/mp4" />
                 </video>
                 <canvas id={DOM_IDS.GAME_BACKGROUND_CANVAS} width="780" height="540"></canvas>
                 <canvas id={DOM_IDS.GAME_CANVAS} width="780" height="540"></canvas>
