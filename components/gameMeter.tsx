@@ -1,5 +1,5 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { COLORS } from "../lib/constants";
 
 interface Props {
   winLoss: number;
@@ -7,25 +7,24 @@ interface Props {
 }
 
 const meterColor = (winLoss: number) => {
-  if (winLoss >= 0.65) return "green";
-  if (winLoss >= 0.3) return "yellow";
+  if (winLoss >= 0.65) return COLORS.GREEN;
+  if (winLoss >= 0.3) return COLORS.YELLOW;
 
-  return "red";
+  return COLORS.RED;
 };
 
 const GameMeter: React.FunctionComponent<Props> = ({ winLoss, gameOver }: Props) => (
   <div style={{ position: "relative", width: 100, height: 400, border: "5px solid black", marginLeft: 15 }}>
-    <motion.div
-      animate={{
+    <div
+      style={{
         position: "absolute",
         bottom: 0,
-        width: 95,
-        height: 400,
+        left: 0,
+        width: 91,
+        height: 400 * winLoss,
         visibility: gameOver ? "hidden" : "visible",
-        backgroundColor: meterColor(winLoss),
-        scaleY: winLoss
+        backgroundColor: meterColor(winLoss)
       }}
-      transition={{ duration: 0.5 }}
     />
   </div>
 );
