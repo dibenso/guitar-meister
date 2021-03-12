@@ -1,13 +1,27 @@
-import Track from "../../lib/track";
+import { SerializedTrack } from "../types";
 import { TracksActionTypes, ADD_TRACK } from "../actionTypes/tracks";
 import tracks from "../../tracks";
 
+const serializedTracks: Array<SerializedTrack> = tracks.map(track => {
+  return {
+    notes: track.notes.notes.map(({ time, color, chord }) => ({
+      time,
+      color,
+      chord
+    })),
+    name: track.name,
+    artist: track.artist,
+    audioSource: track.audioSource,
+    videoSource: track.videoSource
+  };
+});
+
 export interface TracksState {
-  tracks: Array<Track>;
+  tracks: Array<SerializedTrack>;
 }
 
 const initialState = {
-  tracks
+  tracks: serializedTracks
 };
 
 const tracksReducer = (state: TracksState = initialState, action: TracksActionTypes): TracksState => {

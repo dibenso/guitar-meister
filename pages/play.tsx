@@ -1,4 +1,5 @@
 import React from "react";
+import { wrapper } from "../store";
 import Head from "next/head";
 import { connect, ConnectedProps } from "react-redux";
 import Layout from "../components/layout";
@@ -6,7 +7,7 @@ import Game from "../components/game";
 import { APP_NAME } from "../constants";
 import { RootState } from "../store";
 import * as gameActions from "../store/actions/game";
-import Track from "../lib/track";
+import { SerializedTrack } from "../store/types";
 
 const mapStateToProps = (state: RootState) => {
   const { tracks } = state.tracks;
@@ -15,11 +16,15 @@ const mapStateToProps = (state: RootState) => {
   return { tracks, selectedTrack: track };
 };
 const mapDispatchToProps = {
-  setTrack: (track: Track) => gameActions.setTrack(track)
+  setTrack: (track: SerializedTrack) => gameActions.setTrack(track)
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type Props = ConnectedProps<typeof connector>;
+
+export const getStaticProps = wrapper.getStaticProps(({ store }) => {
+  tracks: store.getState().tracks.tracks;
+});
 
 const Play: React.FunctionComponent<Props> = ({ tracks, selectedTrack, setTrack }: Props) => (
   <Layout>

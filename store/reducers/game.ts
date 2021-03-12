@@ -1,8 +1,8 @@
-import Track from "../../lib/track";
+import { SerializedTrack } from "../types";
 import { GameActionTypes, SET_TRACK } from "../actionTypes/game";
 
 export interface GameState {
-  track?: Track;
+  track?: SerializedTrack;
 }
 
 const gameReducer = (state: GameState = {}, action: GameActionTypes): GameState => {

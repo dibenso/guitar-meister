@@ -3,11 +3,14 @@ import GameOver from "./gameOver";
 import GameMeter from "./gameMeter";
 import GuitarMeister from "../lib";
 import { GameOptions } from "../lib/types";
-import Track from "../lib/track";
+import { SerializedTrack } from "../store/types";
 import { DOM_IDS } from "../lib/constants";
+import Track from "../lib/track";
+import TrackNotes from "../lib/trackNotes";
+import Note from "../lib/note";
 
 interface Props {
-  track: Track;
+  track: SerializedTrack;
 }
 
 const Game: React.FunctionComponent<Props> = ({ track }: Props) => {
@@ -22,9 +25,10 @@ const Game: React.FunctionComponent<Props> = ({ track }: Props) => {
     onMissed: () => console.log("Note missed"),
     onBadStrum: () => console.log("Bad strum"),
     onGameOver: () => {
+      setGameOver(true);
+
       const gameOverAudio = document.getElementById("game-over-audio") as HTMLAudioElement;
 
-      setGameOver(true);
       gameOverAudio?.play();
       alert("Game over");
     },
@@ -47,11 +51,16 @@ const Game: React.FunctionComponent<Props> = ({ track }: Props) => {
   };
 
   useEffect(() => {
-    if (gameStarted)
-      if (!GuitarMeister.start(track, options))
+    if (gameStarted) {
+      const notes = track.notes.map(note => new Note(note.time, note.color, note.chord));
+      const trackNotes = new TrackNotes(notes);
+      const trackObject = new Track(trackNotes, track.name, track.artist, track.audioSource, track.videoSource);
+
+      if (!GuitarMeister.start(trackObject, options))
         // dont start game if track notes are invalid
         setGameStarted(false);
       else setScore(0);
+    }
   }, [gameStarted]);
 
   return (

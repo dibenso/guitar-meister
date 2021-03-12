@@ -1,10 +1,10 @@
-import Track from "../../lib/track";
+import { SerializedTrack } from "../types";
 
 export const SET_TRACK = "SET_TRACK";
 
 interface SetTrackAction {
   type: typeof SET_TRACK;
-  payload: Track;
+  payload: SerializedTrack;
 }
 
 export type GameActionTypes = SetTrackAction;

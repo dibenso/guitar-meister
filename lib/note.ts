@@ -11,6 +11,7 @@ export default class Note {
   private _position: number;
   private _hit: boolean;
   private _missed: boolean;
+  readonly time: number;
   readonly color: NoteColor;
   readonly chord: boolean;
 
@@ -18,6 +19,7 @@ export default class Note {
     this._position = calculatePositionForTime(time);
     this._hit = false;
     this._missed = false;
+    this.time = time;
     this.color = color;
     this.chord = chord;
   }

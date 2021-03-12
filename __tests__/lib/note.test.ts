@@ -34,6 +34,13 @@ describe("Note", () => {
     });
   });
 
+  describe("time", () => {
+    it("should return a number representing the time the note passed the note hit row", () => {
+      const note = new Note(100.0, NoteColor.Orange, false);
+      expect(note.time).toEqual(100.0);
+    });
+  });
+
   describe("color", () => {
     it("should return the color of a note", () => {
       const note = new Note(10.0, NoteColor.Orange, false);
