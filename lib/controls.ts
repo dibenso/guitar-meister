@@ -52,7 +52,7 @@ export default class Controls {
 
   public toggleFromEvent(event: ControlEvent, up: boolean): void {
     const { code, repeat } = event;
-    const { onBadStrum, onPause } = this._callbacks;
+    const { onStrum, onPause } = this._callbacks;
 
     switch (code) {
       case KEYS.GREEN:
@@ -72,7 +72,7 @@ export default class Controls {
         break;
       case KEYS.STRUM:
         this._strum = up || repeat ? false : true;
-        onBadStrum();
+        onStrum();
         break;
       case KEYS.PAUSE:
         if (!up && !repeat) onPause();

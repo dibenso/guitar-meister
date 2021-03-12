@@ -42,7 +42,7 @@ export default class Game {
     this._winLoss = 0.5;
     this._paused = false;
     this._controls = new Controls({
-      onBadStrum: this.badStrumCallback.bind(this),
+      onStrum: this.onStrumCallback.bind(this),
       onPause: this.pauseCallback.bind(this)
     });
     this._audioPlayer.onloadedmetadata = () => {
@@ -185,7 +185,7 @@ export default class Game {
     else this._controls.toggleFromEvent({ code, repeat }, false);
   }
 
-  private badStrumCallback(): void {
+  private onStrumCallback(): void {
     if (
       (!this._track.anyNoteValid && this._controls.strum) ||
       (this._controls.emptyControls() && this._controls.strum)

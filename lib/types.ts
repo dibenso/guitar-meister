@@ -30,7 +30,7 @@ export interface ControlEvent {
 }
 
 export interface ControlCallbacks {
-  onBadStrum: () => void;
+  onStrum: () => void;
   onPause: () => void;
 }
 

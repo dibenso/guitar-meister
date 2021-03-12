@@ -1,9 +1,9 @@
 import Controls from "../../lib/controls";
 import { KEYS } from "../../lib/constants";
 
-const onBadStrum = () => null;
-const onPause = () => null;
-const controlCallbacks = { onBadStrum, onPause };
+const onStrum = jest.fn();
+const onPause = jest.fn();
+const controlCallbacks = { onStrum, onPause };
 
 describe("Controls", () => {
   describe("constructor", () => {
@@ -115,6 +115,44 @@ describe("Controls", () => {
     });
   });
 
+  describe("pause", () => {
+    it("should fire onPause callback once when pause button is pressed", () => {
+      onPause.mockClear();
+
+      const controls = new Controls(controlCallbacks);
+      const event = {
+        code: KEYS.PAUSE,
+        repeat: false
+      };
+      controls.toggleFromEvent(event, false);
+      expect(onPause).toBeCalledTimes(1);
+    });
+
+    it("should not fire onPause callback if pause button is up", () => {
+      onPause.mockClear();
+
+      const controls = new Controls(controlCallbacks);
+      const event = {
+        code: KEYS.PAUSE,
+        repeat: false
+      };
+      controls.toggleFromEvent(event, true);
+      expect(onPause).toBeCalledTimes(0);
+    });
+
+    it("should not fire onPause callback if pause button is repeated", () => {
+      onPause.mockClear();
+
+      const controls = new Controls(controlCallbacks);
+      const event = {
+        code: KEYS.PAUSE,
+        repeat: true
+      };
+      controls.toggleFromEvent(event, false);
+      expect(onPause).toBeCalledTimes(0);
+    });
+  });
+
   describe("strum", () => {
     it("should return a boolean indicating if the strum button is currenly pressed", () => {
       const controls = new Controls(controlCallbacks);
@@ -135,12 +173,38 @@ describe("Controls", () => {
       controls.toggleFromEvent(event, true);
       expect(controls.strum).toEqual(false);
     });
+
+    it("should fire onStrum callback once when strum button is pressed", () => {
+      onStrum.mockClear();
+
+      const controls = new Controls(controlCallbacks);
+      const event = {
+        code: KEYS.STRUM,
+        repeat: false
+      };
+      controls.toggleFromEvent(event, false);
+      expect(onStrum).toBeCalledTimes(1);
+    });
   });
 
   describe("emptyControls", () => {
     it("should return true if no buttons are pressed", () => {
       const controls = new Controls(controlCallbacks);
       expect(controls.emptyControls()).toEqual(true);
+    });
+
+    it("should return true if invalid buttons are pressed", () => {
+      const controls = new Controls(controlCallbacks);
+      const event = {
+        code: "I",
+        repeat: false
+      };
+      controls.toggleFromEvent(event, false);
+      expect(controls.emptyControls()).toEqual(true);
+    });
+
+    it("should return false if buttons are pressed", () => {
+      const controls = new Controls(controlCallbacks);
       const event = {
         code: KEYS.ORANGE,
         repeat: false
