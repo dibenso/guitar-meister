@@ -1,6 +1,6 @@
-# Guitar Meister
-[![Build Status](https://travis-ci.com/dibenso/guitar-meister.svg?branch=main)](https://travis-ci.com/dibenso/guitar-meister)       
-A "Guitar Hero" like game for the web
+# Guitar Meister     
+A "Guitar Hero" like game for the web        
+[![Build Status](https://travis-ci.com/dibenso/guitar-meister.svg?branch=main)](https://travis-ci.com/dibenso/guitar-meister)      
 ## Building and running
 First clone the repo and `cd` into the app:     
 ```sh
