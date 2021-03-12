@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import GameOver from "./gameOver";
 import GameMeter from "./gameMeter";
 import GuitarMeister from "../lib";
 import { GameOptions } from "../lib/types";
@@ -23,8 +24,8 @@ const Game: React.FunctionComponent<Props> = ({ track }: Props) => {
     onGameOver: () => {
       const gameOverAudio = document.getElementById("game-over-audio") as HTMLAudioElement;
 
-      gameOverAudio?.play();
       setGameOver(true);
+      gameOverAudio?.play();
       alert("Game over");
     },
     onPause: () => {
@@ -50,29 +51,33 @@ const Game: React.FunctionComponent<Props> = ({ track }: Props) => {
       if (!GuitarMeister.start(track, options))
         // dont start game if track notes are invalid
         setGameStarted(false);
+      else setScore(0);
   }, [gameStarted]);
 
   return (
     <>
       {gameStarted ? (
         <>
-          <h2>{`Score: ${score}`}</h2>
-          <GameMeter winLoss={winLoss} gameOver={gameOver} />
-          <audio id={DOM_IDS.AUDIO_PLAYER}>
-            <source src={`audio/${track.audioSource}`} type="audio/mp3" />
-            Your browser does not support HTML5 audio.
-          </audio>
-          <audio id="game-over-audio">
-            <source src="audio/boo.mp3" type="audio/mp3" />
-          </audio>
-          <div id="stack">
-            <video autoPlay muted id={DOM_IDS.VIDEO_PLAYER} width="780" height="540">
-              <source src={`video/${track.videoSource}`} type="video/mp4" />
-            </video>
-            <canvas id={DOM_IDS.GAME_BACKGROUND_CANVAS} width="780" height="540"></canvas>
-            <canvas id={DOM_IDS.GAME_CANVAS} width="780" height="540"></canvas>
-            {paused && <canvas id="pause-screen" width="780" height="540"></canvas>}
-          </div>
+          {gameOver ? (
+            <GameOver score={score} />
+          ) : (
+            <>
+              <h2>{`Score: ${score}`}</h2>
+              <GameMeter winLoss={winLoss} gameOver={gameOver} />
+              <audio id={DOM_IDS.AUDIO_PLAYER}>
+                <source src={`audio/${track.audioSource}`} type="audio/mp3" />
+                Your browser does not support HTML5 audio.
+              </audio>
+              <div id="stack">
+                <video autoPlay muted id={DOM_IDS.VIDEO_PLAYER} width="780" height="540">
+                  <source src={`video/${track.videoSource}`} type="video/mp4" />
+                </video>
+                <canvas id={DOM_IDS.GAME_BACKGROUND_CANVAS} width="780" height="540"></canvas>
+                <canvas id={DOM_IDS.GAME_CANVAS} width="780" height="540"></canvas>
+                {paused && <canvas id="pause-screen" width="780" height="540"></canvas>}
+              </div>
+            </>
+          )}
         </>
       ) : (
         <button onClick={() => setGameStarted(true)}>Start Game</button>
