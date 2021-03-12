@@ -131,6 +131,17 @@ describe("TrackNotes", () => {
       const trackNotes = validationFactory(VALIDATION_REASONS.DUPLICATE_CHORD_NOTE);
       expect(trackNotes.validationReasons).toContain(VALIDATION_REASONS.DUPLICATE_CHORD_NOTE);
     });
+
+    it("should return a string containing an error about single note chords if last note is a chord and current chord length is 0", () => {
+      const notes = [
+        new Note(2.5, NoteColor.Green, false),
+        new Note(3.0, NoteColor.Red, false),
+        new Note(3.5, NoteColor.Yellow, true)
+      ];
+      const trackNotes = new TrackNotes(notes);
+      trackNotes.validate();
+      expect(trackNotes.validationReasons).toContain(VALIDATION_REASONS.SINGLE_NOTE_CHORD);
+    });
   });
 
   describe("validate", () => {
@@ -166,6 +177,16 @@ describe("TrackNotes", () => {
 
     it("should return false if a TrackNote object has duplicate chord notes", () => {
       const trackNotes = validationFactory(VALIDATION_REASONS.DUPLICATE_CHORD_NOTE);
+      expect(trackNotes.validate()).toEqual(false);
+    });
+
+    it("should return false if a TrackNote objects last note is a chord and current chord length is 0", () => {
+      const notes = [
+        new Note(2.5, NoteColor.Green, false),
+        new Note(3.0, NoteColor.Red, false),
+        new Note(3.5, NoteColor.Yellow, true)
+      ];
+      const trackNotes = new TrackNotes(notes);
       expect(trackNotes.validate()).toEqual(false);
     });
   });
