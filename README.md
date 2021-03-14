@@ -10,7 +10,7 @@ cd guitar-meister
 ### If you want to build with [Docker](https://www.docker.com/):
 ```sh
 docker build -t dibenso/guitar-meister:latest .
-docker run -p 3000:3000 -d guitar-meister
+docker run -p 3000:3000 -d dibenso/guitar-meister
 ```
 ### Normal build with [Yarn](https://yarnpkg.com/):
 ```sh
