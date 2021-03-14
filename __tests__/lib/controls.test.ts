@@ -3,7 +3,7 @@ import { KEYS } from "../../lib/constants";
 
 const onStrum = jest.fn();
 const onPause = jest.fn();
-const controlCallbacks = { onStrum, onPause };
+export const controlCallbacks = { onStrum, onPause };
 
 describe("Controls", () => {
   describe("constructor", () => {
