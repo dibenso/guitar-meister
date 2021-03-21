@@ -1,6 +1,7 @@
 # Guitar Meister     
 A "Guitar Hero" like game for the web        
-[![Build Status](https://travis-ci.com/dibenso/guitar-meister.svg?branch=main)](https://travis-ci.com/dibenso/guitar-meister)            
+[![Build Status](https://travis-ci.com/dibenso/guitar-meister.svg?branch=main)](https://travis-ci.com/dibenso/guitar-meister) 
+[![Coverage Status](https://coveralls.io/repos/github/dibenso/guitar-meister/badge.svg?branch=main)](https://coveralls.io/github/dibenso/guitar-meister?branch=main)                       
 ## Building and running
 First clone the repo and `cd` into the app:     
 ```sh
