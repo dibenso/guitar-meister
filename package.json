@@ -10,7 +10,7 @@
     "test:coverage": "npm test && coveralls < coverage/lcov.info"
   },
   "dependencies": {
-    "@types/react": "^17.0.0",
+    "@types/react": "^17.0.11",
     "@types/react-redux": "^7.1.16",
     "autoprefixer": "^10.2.4",
     "downshift": "^6.1.3",
