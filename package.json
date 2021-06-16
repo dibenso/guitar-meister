@@ -34,10 +34,10 @@
     "coveralls": "^3.1.0",
     "eslint": "^7.28.0",
     "eslint-config-prettier": "^6.15.0",
-    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.24.0",
     "jest": "^26.6.3",
-    "prettier": "^2.2.1",
+    "prettier": "^2.3.1",
     "ts-jest": "^26.5.4",
     "typescript": "^4.1.2"
   }
